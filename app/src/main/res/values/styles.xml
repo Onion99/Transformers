@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="@style/TransparentTheme">
+        <item name="colorPrimary">@color/theme_color_primary</item>
+        <item name="colorPrimaryDark">@color/theme_color_primary</item>
+        <item name="colorAccent">@color/theme_color_primary</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:colorPrimaryDark">@color/theme_color_primary
+        </item> <!-- status bar color -->
+        <item name="android:colorPrimary">@color/theme_color_primary
+        </item> <!-- launched apps list -->
+        <item name="android:colorControlActivated">#ff5b95c2</item>
+        <!--    <item name="android:windowBackground">@color/splash</item>-->
+<!--        <item name="fontFamily">@font/metropolis</item>-->
+    </style>
+
+
+
+
+    <style name="TransparentTheme" parent="@style/AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+
+</resources>

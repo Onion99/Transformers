@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主题色 -->
+    <color name="theme_color_primary">#FFE00D</color> <!--Color primary-->
+    <!-- 辅助色 -->
+    <color name="theme_color_secondary">#FF4D79</color>
+    <!-- 背景色 白-->
+    <color name="theme_color_on_primary">#ffffff</color> <!--Color on primary -->
+    <!-- 背景色 灰-->
+    <color name="theme_color_background">#F2F2F2</color>
+    <color name="theme_color_assist_pink">#F772F2</color>
+    <color name="theme_color_assist_blue">#07B1EF</color>
+    <color name="theme_color_assist_green">#01DF85</color>
+    <!-- 文本一级色 -->
+    <color name="text_color_primary">#1A1A1A</color>
+    <!-- 文本二级色 -->
+    <color name="text_color_secondary">#B1B3B3</color>
+    <!-- 文本三级色 -->
+    <color name="text_color_thirdary">#ffffff</color>
+
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="color_primary">#EB5864</color>
+
+</resources>

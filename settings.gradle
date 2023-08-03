@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://jitpack.io" }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Transformers"
+include(":app")
+include(":transformer:core")
+include(":transformer:kotlinx")
+include(":transformer:javax")
+include(":transformer:util")
+include(":transformer:gradle")
+include(":transformer:spi")
+include(":transformer:api")
+include(":transformer:android-api")
+include(":plugin:main")
+include(":plugin:webview")

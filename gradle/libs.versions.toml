@@ -1,0 +1,196 @@
+[versions]
+agp = "7.3.0"
+androidTools = "31.0.0"
+kotlin = "1.8.0"
+ksp = "1.8.0-1.0.8"
+javaRelease = "8"
+jvmTarget = "1.8"
+material = "1.6.1"
+androidxFragment = "1.5.1"
+androidxActivity = "1.5.1"
+androidxAnnotation = "1.5.0"
+androidxAppcompat = "1.6.0"
+androidxLifecycle = "2.5.1"
+androidxRoom = "2.5.0"
+androidxArchCore = "2.1.0"
+androidxCore = "1.8.0"
+androidxCustomView = "1.1.0"
+androidXStartup = "1.1.1"
+androidXSwipe = "1.1.0"
+androidXSplashScreen = "1.0.0"
+hilt = "2.44"
+flexibleAdapter = "5.1.0"
+flexibleAdapterUI = "1.0.0"
+retrofit = "2.9.0"
+okHttp = "4.10.0"
+sandwich = "1.3.3"
+moshi = "1.14.0"
+coroutines = "1.6.4"
+whatIf = "1.1.2"
+bundler = "1.0.4"
+recyclerView = "1.2.1"
+conductor = "3.2.0"
+splitties = "3.0.0"
+timber = "5.0.1"
+baselineProfiles = "1.2.0"
+macroBenchmark = "1.1.0"
+uiAutomator = "2.2.0"
+truth = "1.0.1"
+junit = "4.13.1"
+turbine = "0.6.0"
+robolectric = "4.4"
+androidxTest = "1.3.0"
+androidxTestJunit = "1.1.2"
+androidTestRunner = "1.3.0-beta01"
+espresso = "3.3.0"
+mockitoKotlin = "2.2.0"
+mockitoInline = "3.5.13"
+objectbox = "3.5.1"
+mmkv = "1.2.15"
+gson = "2.10.1"
+startup = "1.1.0"
+unpeek = "7.8.0"
+facebook = "15.1.0"
+google_login = "20.1.0"
+utilcodex = "1.31.1"
+wire = "4.4.1"
+fresco = "2.6.0"
+tus = "0.4.5"
+shapeofview = "1.4.7"
+jetbrainsAnnotations = "23.0.0"
+compressor="1.6.0"
+appsflyer="6.3.2"
+exoplayer="2.13.3"
+installreferrer="2.2"
+billing="5.1.0"
+banner="2.2.2"
+paging="3.1.1"
+mars="1.2.6"
+asm="7.1"
+
+
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version = "6.7.2" }
+hilt-plugin = { id = "dagger.hilt.android.plugin", version = "hilt" }
+objectbox = { id = "io.objectbox" }
+
+
+[libraries]
+agp = { module = "com.android.tools.build:gradle", version = "7.4.2" }
+android-tools-repository = { module = "com.android.tools:repository", version.ref = "androidTools" }
+android-tools-sdklib = { module = "com.android.tools:sdklib", version.ref = "androidTools" }
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdlib-jdk7 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-stdlib-common = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
+ksp = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "ksp" }
+objectbox = { module = "io.objectbox:objectbox-gradle-plugin", version.ref = "objectbox" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidxFragment" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidxFragment" }
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidxActivity" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
+androidx-customView = { module = "androidx.customview:customview", version.ref = "androidxCustomView" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppcompat" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidxLifecycle" }
+androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidxLifecycle" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycle" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "androidxLifecycle" }
+androidx-lifecycle-livedata-core = { module = "androidx.lifecycle:lifecycle-livedata-core", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidxRoom" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidxRoom" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidxRoom" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidxCore" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidx-arch-core = { module = "androidx.arch.core:core", version.ref = "androidxArchCore" }
+androidx-arch-core-runtime = { module = "androidx.arch.core:core-runtime", version.ref = "androidxArchCore" }
+androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidXStartup" }
+androidx-splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "androidXSplashScreen" }
+androidx-swipe = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidXSwipe" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTest" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
+androidx-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+splitties-view = { module = "com.louiscad.splitties:splitties-fun-pack-android-base", version.ref = "splitties" }
+splitties-dsl = { module = "com.louiscad.splitties:splitties-fun-pack-android-base-with-views-dsl", version.ref = "splitties" }
+conductor-core = { module = "com.bluelinelabs:conductor", version.ref = "conductor" }
+conductor-androidx = { module = "com.bluelinelabs:conductor-androidx-transition", version.ref = "conductor" }
+conductor-viewpager = { module = "com.bluelinelabs:conductor-viewpager", version.ref = "conductor" }
+conductor-viewpager2 = { module = "com.bluelinelabs:conductor-viewpager2", version.ref = "conductor" }
+conductor-autodispose = { module = "com.bluelinelabs:conductor-autodispose", version.ref = "conductor" }
+conductor-archlifecycle = { module = "com.bluelinelabs:conductor-archlifecycle", version.ref = "conductor" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+hilt-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+flexible-adapter = { module = "eu.davidea:flexible-adapter", version.ref = "flexibleAdapter" }
+flexible-adapter-ui = { module = "eu.davidea:flexible-adapter-ui", version.ref = "flexibleAdapterUI" }
+sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
+retrofit = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+okhttp-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttp" }
+okhttp-mockserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okHttp" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
+moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+whatif = { module = "com.github.skydoves:whatif", version.ref = "whatIf" }
+bundler = { module = "com.github.skydoves:bundler", version.ref = "bundler" }
+recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerView" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+startup = { module = "io.github.idisfkj:android-startup", version.ref = "startup" }
+unpeek = { module = "com.kunminx.arch:unpeek-livedata", version.ref = "unpeek" }
+facebookcore = { module = "com.facebook.android:facebook-android-sdk", version.ref = "facebook" }
+facebooklogin = { module = "com.facebook.android:facebook-login", version.ref = "facebook" }
+googlelogin = { module = "com.google.android.gms:play-services-auth", version.ref = "google_login" }
+utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
+wire = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" }
+fresco = { module = "com.facebook.fresco:fresco", version.ref = "fresco" }
+fresco-okhttp = { module = "com.facebook.fresco:imagepipeline-okhttp3", version.ref = "fresco" }
+tus = { module = "io.tus.java.client:tus-java-client", version.ref = "tus" }
+compressor = { module = "com.github.Shouheng88:compressor", version.ref = "compressor" }
+shapeofview = { module = "io.github.florent37:shapeofview", version.ref = "shapeofview" }
+appsflyer={ module = "com.appsflyer:af-android-sdk", version.ref = "appsflyer" }
+exoplayer={ module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }
+installreferrer={ module = "com.android.installreferrer:installreferrer", version.ref = "installreferrer" }
+billing-ktx={ module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
+banner={module = "io.github.youth5201314:banner", version.ref = "banner"}
+paging={module = "androidx.paging:paging-runtime-ktx", version.ref = "paging"}
+mars-xlog={module = "com.tencent.mars:mars-xlog", version.ref = "mars"}
+# ASM
+asm-core={module = "org.ow2.asm:asm", version.ref = "asm"}
+asm-analysis={module = "org.ow2.asm:asm-analysis", version.ref = "asm"}
+asm-commons={module = "org.ow2.asm:asm-commons", version.ref = "asm"}
+asm-tree={module = "org.ow2.asm:asm-tree", version.ref = "asm"}
+asm-util={module = "org.ow2.asm:asm-util", version.ref = "asm"}
+
+
+
+# unit test
+junit = { module = "junit:junit", version.ref = "junit" }
+mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockitoKotlin" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+android-test-runner = { module = "com.android.support.test:runner", version.ref = "androidTestRunner" }
+profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "baselineProfiles" }
+macrobenchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "macroBenchmark" }
+uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiAutomator" }

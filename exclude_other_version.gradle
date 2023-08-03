@@ -1,0 +1,30 @@
+configurations.configureEach {
+    resolutionStrategy{
+        force libs.androidx.fragment
+        force libs.androidx.fragment.ktx
+        force libs.androidx.activity
+        force libs.androidx.activity.ktx
+        force libs.androidx.annotation
+        force libs.androidx.customView
+        force libs.androidx.lifecycle.runtime
+        force libs.androidx.lifecycle.viewmodel
+        force libs.androidx.lifecycle.livedata
+        force libs.androidx.lifecycle.viewmodel.ktx
+        force libs.recyclerview
+        force libs.androidx.core.ktx
+        force libs.androidx.arch.core
+        force libs.androidx.arch.core.runtime
+        force libs.androidx.appcompat
+        force libs.jetbrains.annotations
+//        force libs.kotlin.stdlib
+//        force libs.kotlin.reflect
+//        force libs.kotlin.stdlib.jdk7
+//        force libs.kotlin.stdlib.jdk8
+//        force libs.kotlin.stdlib.common
+        force libs.coroutines  
+        force libs.gson
+    }
+}
+configurations {
+    all*.exclude module: 'lifecycle-extensions'
+}
