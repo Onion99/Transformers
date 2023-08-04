@@ -6,8 +6,8 @@ plugins {
 }
 
 // 使用Gradle发布工件到Maven仓库  https://blog.csdn.net/yingaizhu/article/details/85163062
-group = "com.nova.sun"
-version = "0.0.2"
+//group = "com.nova.sun"
+//version = "0.0.2"
 //val sourcesJar by tasks.registering(Jar::class) {
 //    classifier = "sources"
 //    from(sourceSets.main.get().allSource)

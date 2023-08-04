@@ -36,9 +36,9 @@ apply(from = "$rootDir/exclude_other_version.gradle")
 
 
 allprojects {
-//  println("current project = ${name}")
-    val noTransformerProject = arrayOf("app", "Transformers")
+    val noTransformerProject = arrayOf("app", "Transformers","transformer")
     if (!noTransformerProject.contains(name)) {
+        println("current project = ${name}")
         apply(plugin = "maven-publish")
         apply(plugin = "java")
         val project = this
@@ -46,6 +46,7 @@ allprojects {
             classifier = "sources"
             from(sourceSets.main.get().allSource)
         }
+
         val configurePublication: Action<MavenPublication> = Action {
             val publication = this
             group = /*Configuration.pluginGroup*/ project.group
