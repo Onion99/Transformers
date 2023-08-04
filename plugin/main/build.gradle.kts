@@ -8,10 +8,10 @@ plugins {
 // 使用Gradle发布工件到Maven仓库  https://blog.csdn.net/yingaizhu/article/details/85163062
 group = "com.nova.sun"
 version = "0.0.2"
-val sourcesJar by tasks.registering(Jar::class) {
-    classifier = "sources"
-    from(sourceSets.main.get().allSource)
-}
+//val sourcesJar by tasks.registering(Jar::class) {
+//    classifier = "sources"
+//    from(sourceSets.main.get().allSource)
+//}
 /*publishing{
     repositories {
         maven {
@@ -33,11 +33,11 @@ val sourcesJar by tasks.registering(Jar::class) {
 
 gradlePlugin{
     plugins {
-        register("sword"){
+        create("sword"){
             id = group.toString()
-            displayName = "$id.core.plugin"
             description = project.description ?: project.name
-            implementationClass = "com.nova.sun.core.plugin"
+            // 实现这个插件的类的路径
+            implementationClass = "com.nova.plugin.main.CorePlugin"
         }
     }
 }
