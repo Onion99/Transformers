@@ -6,9 +6,11 @@ pluginManagement {
         maven { url "https://jitpack.io" }
     }
 }
+// 子 module 依赖来源
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
     }

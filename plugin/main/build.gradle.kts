@@ -1,4 +1,4 @@
-apply(from = "$rootDir/transformer_common.gradle.kts")
+//apply(from = "$rootDir/transformer_common.gradle.kts")
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("java-gradle-plugin")
@@ -44,13 +44,19 @@ gradlePlugin{
 
 dependencies {
     // ---- plugin ------
-    api(project(":plugin:webview"))
+//    api(project(":plugin:webview"))
+    implementation(libs.tranform.webview)
     // ---- dependencies ------
-    api(project(":transformer:gradle"))
-    api(project(":transformer:kotlinx"))
-    api(project(":transformer:spi"))
-    api(project(":transformer:core"))
-    api(project(":transformer:util"))
+//    api(project(":transformer:gradle"))
+//    api(project(":transformer:kotlinx"))
+//    api(project(":transformer:spi"))
+//    api(project(":transformer:core"))
+//    api(project(":transformer:util"))
+    implementation(libs.tranform.core)
+    implementation(libs.tranform.spi)
+    implementation(libs.tranform.util)
+    implementation(libs.tranform.gradle)
+    implementation(libs.tranform.kotlinx)
     api(libs.agp)
     api(gradleApi())
 }

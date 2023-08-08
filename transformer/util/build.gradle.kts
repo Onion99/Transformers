@@ -2,8 +2,10 @@ apply(from = "$rootDir/transformer_common.gradle.kts")
 fun DependencyHandler.api(dependencyNotation: Any): Dependency? = add("api", dependencyNotation)
 fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
 dependencies {
-    implementation(project(":transformer:spi"))
-    implementation(project(":transformer:kotlinx"))
+//    implementation(project(":transformer:spi"))
+//    implementation(project(":transformer:kotlinx"))
+    implementation(libs.tranform.kotlinx)
+    implementation(libs.tranform.spi)
     implementation("org.apache.commons:commons-compress:1.21")
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.10.0.202012080955-r")
 }

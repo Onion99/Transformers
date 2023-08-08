@@ -27,7 +27,8 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.nova.sun:main:0.0.2")
+        classpath(libs.tranform.main)
+//        classpath("com.nova.sun:main:0.0.2")
     }
 }
 
@@ -49,7 +50,7 @@ allprojects {
 
         val configurePublication: Action<MavenPublication> = Action {
             val publication = this
-            group = /*Configuration.pluginGroup*/ project.group
+            group = Configuration.pluginGroup
             version = Configuration.pluginVersion
             artifactId = project.name
             artifact(sourcesJar.get())
@@ -57,9 +58,9 @@ allprojects {
                 from(components.getByName("java"))
             }
 
-            pom {
+            /*pom {
                 uri("https://github.com/onion99/transformer")
-            }
+            }*/
         }
 
         afterEvaluate {

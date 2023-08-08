@@ -67,6 +67,7 @@ banner="2.2.2"
 paging="3.1.1"
 mars="1.2.6"
 asm="7.1"
+novaTransformer = "0.0.2"
 
 
 
@@ -181,8 +182,17 @@ asm-commons={module = "org.ow2.asm:asm-commons", version.ref = "asm"}
 asm-tree={module = "org.ow2.asm:asm-tree", version.ref = "asm"}
 asm-util={module = "org.ow2.asm:asm-util", version.ref = "asm"}
 
-
-
+# nova plugin
+tranform-kotlinx    = {module = "com.nova.sun.plugin:kotlinx" , version.ref = "novaTransformer"}
+tranform-javax      = {module = "com.nova.sun.plugin:javax" , version.ref = "novaTransformer"}
+tranform-spi        = {module = "com.nova.sun.plugin:spi" , version.ref = "novaTransformer"}
+tranform-core       = {module = "com.nova.sun.plugin:core" , version.ref = "novaTransformer"}
+tranform-gradle     = {module = "com.nova.sun.plugin:gradle" , version.ref = "novaTransformer"}
+tranform-util       = {module = "com.nova.sun.plugin:util" , version.ref = "novaTransformer"}
+tranform-android-api = {module = "com.nova.sun.plugin:android-api" , version.ref = "novaTransformer"}
+# nova plugin - imp
+tranform-webview     = {module = "com.nova.sun.plugin:webview" , version.ref = "novaTransformer"}
+tranform-main        = {module = "com.nova.sun.plugin:main" , version.ref = "novaTransformer"}
 # unit test
 junit = { module = "junit:junit", version.ref = "junit" }
 mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockitoKotlin" }
