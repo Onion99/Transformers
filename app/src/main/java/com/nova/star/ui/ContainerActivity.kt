@@ -2,9 +2,11 @@ package com.nova.star.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import kotlinx.coroutines.CoroutineScope

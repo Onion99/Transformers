@@ -27,7 +27,7 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.nova.sun:main:0.0.2")
+        classpath("com.nova.sun.plugin:main:0.0.3")
     }
 }
 
@@ -36,7 +36,7 @@ apply(from = "$rootDir/exclude_other_version.gradle")
 
 
 allprojects {
-    val noTransformerProject = arrayOf("app", "Transformers","transformer")
+    val noTransformerProject = arrayOf("app", "Transformers","transformer","plugin")
     if (!noTransformerProject.contains(name)) {
         println("current project = ${name}")
         apply(plugin = "maven-publish")
@@ -49,7 +49,9 @@ allprojects {
 
         val configurePublication: Action<MavenPublication> = Action {
             val publication = this
-            group = /*Configuration.pluginGroup*/ project.group
+            // 对应发布的包域
+            group = Configuration.pluginGroup
+            // 对应发布版本
             version = Configuration.pluginVersion
             artifactId = project.name
             artifact(sourcesJar.get())
