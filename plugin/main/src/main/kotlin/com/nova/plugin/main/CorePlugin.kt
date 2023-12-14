@@ -24,7 +24,7 @@ class CorePlugin :Plugin<Project> {
         }
         // ---- transform plugin list ------
         project.getAndroid<BaseExtension>().registerTransform(CoreTransform(
-            project.newTransformParameter("nova transformer", setOf(WebViewTransformer()))
+            project.newTransformParameter("Onion transformer", setOf(WebViewTransformer()))
         ))
     }
 

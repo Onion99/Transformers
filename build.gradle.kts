@@ -1,6 +1,9 @@
 // KTS教程: https://github.com/gradle/kotlin-dsl-samples/blob/master/samples/maven-publish/build.gradle.kts
 import  com.nova.build.Configuration
 
+// ------------------------------------------------------------------------
+// 为下面配置AllProjects做编译导入支持
+// ------------------------------------------------------------------------
 plugins {
     //alias(libs.plugins.spotless)
     id("maven-publish")
@@ -27,7 +30,7 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.nova.sun.plugin:main:0.0.4")
+        classpath("com.nova.sun.plugin:main:0.0.6")
     }
 }
 

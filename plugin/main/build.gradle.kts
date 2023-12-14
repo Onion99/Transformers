@@ -33,8 +33,8 @@ plugins {
 
 gradlePlugin{
     plugins {
-        create("sword"){
-            id = group.toString()
+        create("onion"){
+            id = "com.onion.plugin"
             description = project.description ?: project.name
             // 实现这个插件的类的路径
             implementationClass = "com.nova.plugin.main.CorePlugin"
