@@ -12,7 +12,7 @@ object Configuration {
   var versionCode = "$majorVersion$minorVersion$patchVersion".toInt()
   const val nameSpace= "com.nova.star"
   const val pluginGroup   = "com.nova.sun.plugin"
-  const val pluginVersion = "0.0.3"
+  const val pluginVersion = "0.0.4"
   const val debugApplicationId= "com.nova.beta"
   const val debugSignPassWord = "nova9999"
   const val debugSignAlias = "nova"

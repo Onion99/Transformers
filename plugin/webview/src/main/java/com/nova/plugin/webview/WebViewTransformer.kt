@@ -49,6 +49,7 @@ class WebViewTransformer : ClassTransformer {
             return klass
         }
 
+        println("WebViewTransformer.transform")
         val method = klass.methods?.find {
             "${it.name}${it.desc}" == "onCreate()V"
         } ?: klass.defaultOnCreate.also {

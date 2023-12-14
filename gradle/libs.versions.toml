@@ -1,6 +1,6 @@
 [versions]
-agp = "7.3.0"
-androidTools = "31.0.0"
+agp = "7.4.2"
+androidTools = "30.0.0"
 kotlin = "1.8.0"
 ksp = "1.8.0-1.0.8"
 javaRelease = "8"
