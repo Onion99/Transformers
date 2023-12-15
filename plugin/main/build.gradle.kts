@@ -47,6 +47,7 @@ dependencies {
     api(project(":plugin:webview"))
     // ---- dependencies ------
     api(project(":transformer:gradle"))
+    api(project(":transformer:gradle-api-v74"))
     api(project(":transformer:kotlinx"))
     api(project(":transformer:spi"))
     api(project(":transformer:core"))
