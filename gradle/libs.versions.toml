@@ -88,6 +88,7 @@ objectbox = { id = "io.objectbox" }
 agp = { module = "com.android.tools.build:gradle", version = "7.4.2" }
 android-tools-repository = { module = "com.android.tools:repository", version.ref = "androidTools" }
 android-tools-sdklib = { module = "com.android.tools:sdklib", version.ref = "androidTools" }
+android-tools-common = { module = "com.android.tools:common", version.ref = "androidTools" }
 jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }

@@ -4,6 +4,7 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.api.BaseVariant
 import com.android.builder.model.ApiVersion
 import com.nova.transform.gradle.compat.AGP
+import com.nova.transform.gradle.ext.originalApplicationId
 import org.gradle.api.Project
 import java.io.File
 
@@ -58,8 +59,8 @@ val TransformInvocation.applicationId: String
 /**
  * Returns the original application ID before any overrides from flavors
  */
-//val TransformInvocation.originalApplicationId: String
-//    get() = variant.originalApplicationId
-//
-//val TransformInvocation.isDataBindingEnabled: Boolean
-//    get() = AGP.run { isDataBindingEnabled }
+val TransformInvocation.originalApplicationId: String
+    get() = variant.originalApplicationId
+
+val TransformInvocation.isDataBindingEnabled: Boolean
+    get() = AGP.run { isDataBindingEnabled }

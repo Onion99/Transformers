@@ -1,10 +1,14 @@
 apply(from = "$rootDir/transformer_common.gradle.kts")
 fun DependencyHandler.api(dependencyNotation: Any): Dependency? = add("api", dependencyNotation)
+fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
 dependencies {
     api(gradleApi())
     api(libs.android.tools.sdklib)
     api(libs.android.tools.repository)
+    api(libs.android.tools.common)
     api(libs.agp)
+    implementation(project(":transformer:spi"))
+    implementation(project(":transformer:kotlinx"))
 }
 /*
 import com.nova.build.Configuration

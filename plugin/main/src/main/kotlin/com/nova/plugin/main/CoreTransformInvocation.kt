@@ -6,17 +6,27 @@ import com.android.build.api.transform.JarInput
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Status
 import com.android.build.api.transform.TransformInvocation
+import com.android.build.gradle.BaseExtension
 import com.nova.transform.core.abstarct.ClassTransformer
 import com.nova.transform.core.ext.className
 import com.nova.transform.core.ext.textify
+import com.nova.transform.gradle.compat.getAndroid
+import com.nova.transform.gradle.ext.getProperty
+import com.nova.transform.gradle.transform.applicationId
+import com.nova.transform.gradle.transform.artifacts
 import com.nova.transform.gradle.transform.bootClasspath
 import com.nova.transform.gradle.transform.compileClasspath
+import com.nova.transform.gradle.transform.isDataBindingEnabled
+import com.nova.transform.gradle.transform.originalApplicationId
 import com.nova.transform.gradle.transform.project
 import com.nova.transform.gradle.transform.runtimeClasspath
+import com.nova.transform.gradle.transform.variant
 import com.nova.transform.kotlinx.CPU_NUM
 import com.nova.transform.kotlinx.touch
+import com.nova.transform.spi.AbstractTranformClassPool
 import com.nova.transform.spi.TransformContext
 import com.nova.transform.spi.TransformerArtifactManager
+import com.nova.transform.spi.TransformerClassPool
 import com.nova.transform.util.Collector
 import com.nova.transform.util.CompositeCollector
 import com.nova.transform.util.collect
@@ -64,6 +74,37 @@ class CoreTransformInvocation (
     override val runtimeClasspath = delegate.runtimeClasspath
 
     override val artifacts = this
+
+    override val applicationId = delegate.applicationId
+
+    override val originalApplicationId = delegate.originalApplicationId
+
+    override val isDebuggable = variant.buildType.isDebuggable
+
+    override val isDataBindingEnabled = delegate.isDataBindingEnabled
+
+    override fun hasProperty(name: String) = project.hasProperty(name)
+
+    override fun <T> getProperty(name: String, default: T): T = project.getProperty(name, default)
+
+    override fun get(type: String) = variant.artifacts.get(type)
+
+    override fun <R> registerCollector(collector: Collector<R>) {
+        this.collectors += collector
+    }
+
+    override fun <R> unregisterCollector(collector: Collector<R>) {
+        this.collectors -= collector
+    }
+
+    override val dependencies: Collection<String> by lazy {
+        emptyList()
+    }
+
+    override val classPool by lazy {
+        object : AbstractTranformClassPool(project.getAndroid<BaseExtension>().bootClasspath) {}
+    }
+
 
     private fun onPreTransform() {
         transform.parameter.transformers.forEach {

@@ -49,52 +49,52 @@ interface TransformContext {
      */
     val artifacts: TransformerArtifactManager
 
-//    /**
-//     * The original dependencies, may be same to [compileClasspath]
-//     */
-//    val dependencies: Collection<String>
-//
-//    /**
-//     * The class pool
-//     */
-//    val classPool: TransformerClassPool
-//
-//    /**
-//     * The application identifier
-//     */
-//    val applicationId: String
-//
-//    /**
-//     * The original application ID before any overrides from flavors
-//     */
-//    val originalApplicationId: String
-//
-//    /**
-//     * The buildType is debuggable
-//     */
-//    val isDebuggable: Boolean
-//
-//    /**
-//     * is dataBinding enabled or not
-//     */
-//    val isDataBindingEnabled: Boolean
-//
-//    /**
-//     * Check if has the specified property. Generally, the property is equivalent to project property
-//     *
-//     * @param name the name of property
-//     */
-//    fun hasProperty(name: String): Boolean
-//
-//    /**
-//     * Returns the value of the specified property. Generally, the property is equivalent to project property
-//     *
-//     * @param name the name of property
-//     * @param default the default value
-//     */
-//    fun <T> getProperty(name: String, default: T): T = default
-//
-//    fun <R> registerCollector(collector: TransformerCollector<R>)
-//    fun <R> unregisterCollector(collector: TransformerCollector<R>)
+    /**
+     * The original dependencies, may be same to [compileClasspath]
+     */
+    val dependencies: Collection<String>
+
+    /**
+     * The class pool
+     */
+    val classPool: TransformerClassPool
+
+    /**
+     * The application identifier
+     */
+    val applicationId: String
+
+    /**
+     * The original application ID before any overrides from flavors
+     */
+    val originalApplicationId: String
+
+    /**
+     * The buildType is debuggable
+     */
+    val isDebuggable: Boolean
+
+    /**
+     * is dataBinding enabled or not
+     */
+    val isDataBindingEnabled: Boolean
+
+    /**
+     * Check if has the specified property. Generally, the property is equivalent to project property
+     *
+     * @param name the name of property
+     */
+    fun hasProperty(name: String): Boolean
+
+    /**
+     * Returns the value of the specified property. Generally, the property is equivalent to project property
+     *
+     * @param name the name of property
+     * @param default the default value
+     */
+    fun <T> getProperty(name: String, default: T): T = default
+
+    fun <R> registerCollector(collector: TransformerCollector<R>)
+    fun <R> unregisterCollector(collector: TransformerCollector<R>)
 
 }
