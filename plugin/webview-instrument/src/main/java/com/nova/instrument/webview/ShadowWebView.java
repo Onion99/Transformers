@@ -1,4 +1,4 @@
-package com.nova.plugin.webview;
+package com.nova.instrument.webview;
 
 import static com.nova.transform.javax.Reflection.invokeMethod;
 import static com.nova.transform.javax.Reflection.invokeStaticMethod;

@@ -49,7 +49,7 @@ open class TransformHelper(
         try {
             transformers.map {
                 executor.submit {
-                    it.onPreTransform(context)
+                    it.onStartTransform(context)
                 }
             }.forEach {
                 it.get()
@@ -79,7 +79,7 @@ open class TransformHelper(
 
             transformers.map {
                 executor.submit {
-                    it.onPostTransform(context)
+                    it.onEndTransform(context)
                 }
             }.forEach {
                 it.get()

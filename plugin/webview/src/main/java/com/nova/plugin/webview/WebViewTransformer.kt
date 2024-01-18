@@ -1,5 +1,6 @@
 package com.nova.plugin.webview
 
+import com.google.auto.service.AutoService
 import com.nova.transform.core.abstarct.ClassTransformer
 import com.nova.transform.core.ext.className
 import com.nova.transform.core.ext.findAll
@@ -22,6 +23,7 @@ import org.objectweb.asm.tree.VarInsnNode
 import java.io.PrintWriter
 import javax.xml.parsers.SAXParserFactory
 
+@AutoService(ClassTransformer::class)
 class WebViewTransformer : ClassTransformer {
 
     private lateinit var logger: PrintWriter
@@ -31,13 +33,13 @@ class WebViewTransformer : ClassTransformer {
 
     override fun onStartTransform(context: TransformContext) {
         val parser = SAXParserFactory.newInstance().newSAXParser()
+        this.logger = getReport(context, "report.txt").touch().printWriter()
         context.artifacts.get(TransformerArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
             val handler = ComponentHandler()
             parser.parse(manifest, handler)
             applications.addAll(handler.applications)
         }
-
-        this.logger = getReport(context, "report.txt").touch().printWriter()
+        logger.println(applications)
     }
 
     override fun onEndTransform(context: TransformContext) {
@@ -49,7 +51,7 @@ class WebViewTransformer : ClassTransformer {
             return klass
         }
 
-        println("WebViewTransformer.transform")
+        logger.println("WebViewTransformer.transform")
         val method = klass.methods?.find {
             "${it.name}${it.desc}" == "onCreate()V"
         } ?: klass.defaultOnCreate.also {
@@ -77,4 +79,4 @@ private val ClassNode.defaultOnCreate: MethodNode
         })
     }
 
-private const val SHADOW_WEBVIEW = "com/nova/transform/webview/ShadowWebView"
+private const val SHADOW_WEBVIEW = "com/nova/instrument/webview/ShadowWebView"

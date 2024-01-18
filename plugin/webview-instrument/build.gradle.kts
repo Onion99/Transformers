@@ -1,19 +1,13 @@
-
-apply(from = "$rootDir/transformer_common.gradle.kts")
-fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? = add("kapt", dependencyNotation)
+//apply(from = "$rootDir/transformer_common.gradle.kts")
+//apply(plugin = "kotlin")
+//apply(plugin = "kotlin-kapt")
 fun DependencyHandler.api(dependencyNotation: Any): Dependency? = add("api", dependencyNotation)
+fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? = add("kapt", dependencyNotation)
 fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
 dependencies {
     compileOnly(project(":transformer:android-api"))
-    implementation(project(":transformer:core"))
-    implementation(project(":transformer:spi"))
-    implementation(project(":transformer:util"))
-    implementation(project(":transformer:kotlinx"))
     implementation(project(":transformer:javax"))
-    compileOnly(project(":transformer:gradle"))
-    kapt(libs.autoService)
-    api(libs.autoService)
-    compileOnly(libs.agp)
+//    kapt "com.google.auto.service:auto-service:1.0"
 }
 //import com.nova.build.Configuration
 

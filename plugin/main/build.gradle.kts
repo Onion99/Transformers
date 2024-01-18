@@ -53,5 +53,6 @@ dependencies {
     api(project(":transformer:core"))
     api(project(":transformer:util"))
     api(libs.agp)
+    api("commons-codec:commons-codec:1.15")
     api(gradleApi())
 }

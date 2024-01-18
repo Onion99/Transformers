@@ -6,6 +6,7 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.nova.transform.core.abstarct.ClassTransformer
 import com.nova.transform.gradle.compat.AGP
+import com.nova.transform.spi.Transformer
 import org.gradle.api.Project
 import org.gradle.api.initialization.dsl.ScriptHandler
 import org.gradle.api.plugins.PluginContainer
@@ -54,8 +55,8 @@ data class TransformParameter(
     val buildscript: ScriptHandler,
     val plugins: PluginContainer,
     val properties: Map<String, Any?>,
-    val transformers: Set<ClassTransformer>
+    val transformers: Set<Class<Transformer>>
 ) : Serializable
 
 
-fun Project.newTransformParameter(name: String,transformers: Set<ClassTransformer>) = TransformParameter(name, buildscript, plugins, properties, transformers)
+fun Project.newTransformParameter(name: String,transformers: Set<Class<Transformer>>) = TransformParameter(name, buildscript, plugins, properties, transformers)

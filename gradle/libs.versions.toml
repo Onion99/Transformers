@@ -67,6 +67,7 @@ banner="2.2.2"
 paging="3.1.1"
 mars="1.2.6"
 asm="7.1"
+autoService="1.0"
 
 
 
@@ -195,3 +196,4 @@ android-test-runner = { module = "com.android.support.test:runner", version.ref 
 profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "baselineProfiles" }
 macrobenchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "macroBenchmark" }
 uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiAutomator" }
+autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }

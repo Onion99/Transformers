@@ -25,6 +25,7 @@ import com.nova.transform.kotlinx.CPU_NUM
 import com.nova.transform.kotlinx.touch
 import com.nova.transform.spi.AbstractTranformClassPool
 import com.nova.transform.spi.TransformContext
+import com.nova.transform.spi.Transformer
 import com.nova.transform.spi.TransformerArtifactManager
 import com.nova.transform.spi.TransformerClassPool
 import com.nova.transform.util.Collector
@@ -32,7 +33,7 @@ import com.nova.transform.util.CompositeCollector
 import com.nova.transform.util.collect
 import com.nova.transform.util.diff
 import com.nova.transform.util.transform
-import org.gradle.internal.impldep.org.apache.commons.codec.digest.DigestUtils.md5Hex
+import org.apache.commons.codec.digest.DigestUtils.md5Hex
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.tree.ClassNode
@@ -55,7 +56,26 @@ class CoreTransformInvocation (
 
 
     private val outputs = CopyOnWriteArrayList<File>()
+
     private val collectors = CopyOnWriteArrayList<Collector<*>>()
+
+
+    // ------------------------------------------------------------------------
+    // Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
+    // ------------------------------------------------------------------------
+    private val transformers: List<Transformer> = transform.parameter.transformers.map {
+        try {
+            it.getConstructor(ClassLoader::class.java).newInstance(transform.parameter.buildscript.classLoader)
+        } catch (e1: Throwable) {
+            try {
+                it.getConstructor().newInstance()
+            } catch (e2: Throwable) {
+                throw e2.apply {
+                    addSuppressed(e1)
+                }
+            }
+        }
+    }
 
     override val name: String = delegate.context.variantName
 
@@ -107,8 +127,8 @@ class CoreTransformInvocation (
 
 
     private fun onPreTransform() {
-        transform.parameter.transformers.forEach {
-            it.onStartTransform(this)
+        transformers.forEach {
+                it.onStartTransform(this)
         }
     }
 
@@ -117,7 +137,7 @@ class CoreTransformInvocation (
     internal fun doIncrementalTransform() = doTransform(this::transformIncrementally)
 
     private fun onEndTransform() {
-        transform.parameter.transformers.forEach {
+        transformers.forEach {
             it.onEndTransform(this)
         }
     }
@@ -233,33 +253,33 @@ class CoreTransformInvocation (
     private fun File.transform(output: File) {
         outputs += output
         project.logger.info("Nova transforming $this => $output")
-        transform(output) { bytecode ->
-            bytecode.transform()
-        }
+//        transform(output) { bytecode ->
+//            bytecode.transform()
+//        }
     }
-    private fun ByteArray.transform(): ByteArray {
-        return transform.parameter.transformers.fold(this) { bytecode, transformer ->
-            ClassWriter(ClassWriter.COMPUTE_MAXS).also { writer ->
-                transform.parameter.transformers.fold(ClassNode().also { klass -> ClassReader(bytecode).accept(klass, 0) }) { a, transformer ->
-                    transformer.threadMxBean.sumCpuTime(transformer) {
-                        if (/*diffEnabled*/false) {
-                            val left = a.textify()
-                            transformer.transform(this@CoreTransformInvocation, a).also trans@{ b ->
-                                val right = b.textify()
-                                val diff = if (left == right) "" else left diff right
-                                if (diff.isEmpty() || diff.isBlank()) {
-                                    return@trans
-                                }
-                                transformer.getReport(this@CoreTransformInvocation, "${a.className}.diff").touch().writeText(diff)
-                            }
-                        } else {
-                            transformer.transform(this@CoreTransformInvocation, a)
-                        }
-                    }
-                }.accept(writer)
-            }.toByteArray()
-        }
-    }
+//    private fun ByteArray.transform(): ByteArray {
+//        return transform.parameter.transformers.fold(this) { bytecode, transformer ->
+//            ClassWriter(ClassWriter.COMPUTE_MAXS).also { writer ->
+//                transform.parameter.transformers.fold(ClassNode().also { klass -> ClassReader(bytecode).accept(klass, 0) }) { a, transformer ->
+//                    transformer.threadMxBean.sumCpuTime(transformer) {
+//                        if (/*diffEnabled*/false) {
+//                            val left = a.textify()
+//                            transformer.transform(this@CoreTransformInvocation, a).also trans@{ b ->
+//                                val right = b.textify()
+//                                val diff = if (left == right) "" else left diff right
+//                                if (diff.isEmpty() || diff.isBlank()) {
+//                                    return@trans
+//                                }
+//                                transformer.getReport(this@CoreTransformInvocation, "${a.className}.diff").touch().writeText(diff)
+//                            }
+//                        } else {
+//                            transformer.transform(this@CoreTransformInvocation, a)
+//                        }
+//                    }
+//                }.accept(writer)
+//            }.toByteArray()
+//        }
+//    }
 
     private fun <R> ThreadMXBean.sumCpuTime(transformer: ClassTransformer, action: () -> R): R {
         val ct0 = this.currentThreadCpuTime
