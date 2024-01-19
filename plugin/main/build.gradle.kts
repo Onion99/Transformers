@@ -50,7 +50,7 @@ dependencies {
     api(project(":transformer:gradle-api-v74"))
     api(project(":transformer:kotlinx"))
     api(project(":transformer:spi"))
-    api(project(":transformer:core"))
+    api(project(":transformer:core-asm"))
     api(project(":transformer:util"))
     api(libs.agp)
     api("commons-codec:commons-codec:1.15")

@@ -1,14 +1,14 @@
 apply(from = "$rootDir/transformer_common.gradle.kts")
 fun DependencyHandler.api(dependencyNotation: Any): Dependency? = add("api", dependencyNotation)
 fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
+fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? = add("kapt", dependencyNotation)
 dependencies {
-    implementation(project(":transformer:spi"))
-    api(libs.asm.core)
-    api(libs.asm.commons)
-    api(libs.asm.analysis)
-    api(libs.asm.tree)
-    api(libs.asm.util)
-    api(gradleApi())
+    api(libs.javassist)
+    api(libs.autoService)
+    kapt(libs.autoService)
+    api(project(":transformer:spi"))
+    api(project(":transformer:kotlinx"))
+    api(project(":transformer:util"))
 }
 /*
 import com.nova.build.Configuration
@@ -20,8 +20,8 @@ plugins {
 }
 
 android {
+    namespace = "com.nova.transformer.kotlinx"
     compileSdk = Configuration.compileSdk
-    namespace = "com.nova.transform.core"
     defaultConfig {
         minSdk = Configuration.minSdk
         targetSdk = Configuration.targetSdk
@@ -31,13 +31,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":transformer:spi"))
-    api(libs.asm.core)
-    api(libs.asm.commons)
-    api(libs.asm.analysis)
-    api(libs.asm.tree)
-    api(libs.asm.util)
-    api(gradleApi())
     */
 /*api(gradleApi())
     api(libs.android.tools.sdklib)

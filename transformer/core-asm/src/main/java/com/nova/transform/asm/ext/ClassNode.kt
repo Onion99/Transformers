@@ -1,4 +1,4 @@
-package com.nova.transform.core.ext
+package com.nova.transform.asm.ext
 
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.AnnotationNode
@@ -12,15 +12,15 @@ import org.objectweb.asm.util.TraceClassVisitor
 import java.io.PrintWriter
 import java.io.StringWriter
 
-/**
- * The simple name of class
- */
+// ------------------------------------------------------------------------
+// The simple name of class
+// ------------------------------------------------------------------------
 val ClassNode.simpleName: String
     get() = this.name.substring(this.name.lastIndexOf('/') + 1)
 
-/**
- * The name of class
- */
+// ------------------------------------------------------------------------
+//  The name of class
+// ------------------------------------------------------------------------
 val ClassNode.className: String
     get() = name.replace('/', '.')
 

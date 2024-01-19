@@ -1,4 +1,4 @@
-package com.nova.transform.core.abstarct
+package com.nova.transform.asm.abstarct
 
 import com.nova.transform.spi.TransformContext
 import com.nova.transform.spi.TransformLifeCycle
@@ -37,13 +37,9 @@ interface ClassTransformer : TransformLifeCycle {
         return report
     }
 
-    /**
-     * Transform the specified class node
-     *
-     * @param context The transform context
-     * @param klass The class node to be transformed
-     * @return The transformed class node
-     */
+    // ------------------------------------------------------------------------
+    //  Transform the specified class node
+    // ------------------------------------------------------------------------
     fun transform(context: TransformContext, klass: ClassNode) = klass
 
 }

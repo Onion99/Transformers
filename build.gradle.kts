@@ -36,9 +36,17 @@ buildscript {
 
 apply(from = "$rootDir/exclude_other_version.gradle")
 
-
-
 allprojects {
+    configurations{
+        val attrGroup = Attribute.of("pluginGroup", String::class.java)
+        val attrVersion = Attribute.of("pluginVersion", String::class.java)
+        create("pluginAttr"){
+            attributes {
+                attribute(attrGroup,Configuration.pluginGroup)
+                attribute(attrVersion,Configuration.pluginVersion)
+            }
+        }
+    }
     val noTransformerProject = arrayOf("app", "Transformers","transformer","plugin")
     if (!noTransformerProject.contains(name)) {
         println("current project = ${name}")

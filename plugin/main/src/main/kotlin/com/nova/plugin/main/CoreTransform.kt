@@ -4,7 +4,7 @@ import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.nova.transform.core.abstarct.ClassTransformer
+import com.nova.transform.asm.abstarct.ClassTransformer
 import com.nova.transform.gradle.compat.AGP
 import com.nova.transform.spi.Transformer
 import org.gradle.api.Project

@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Transformers"
 include(":app")
-include(":transformer:core")
+include(":transformer:core-asm")
 include(":transformer:kotlinx")
 include(":transformer:javax")
 include(":transformer:util")
@@ -23,6 +23,7 @@ include(":transformer:gradle")
 include(":transformer:spi")
 include(":transformer:gradle-api-v74")
 include(":transformer:android-api")
+include(":transformer:core-javassist")
 include(":plugin:main")
 include(":plugin:webview")
 include(":plugin:webview-instrument")

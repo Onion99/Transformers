@@ -5,7 +5,7 @@ fun DependencyHandler.api(dependencyNotation: Any): Dependency? = add("api", dep
 fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
 dependencies {
     compileOnly(project(":transformer:android-api"))
-    implementation(project(":transformer:core"))
+    implementation(project(":transformer:core-asm"))
     implementation(project(":transformer:spi"))
     implementation(project(":transformer:util"))
     implementation(project(":transformer:kotlinx"))
@@ -14,6 +14,9 @@ dependencies {
     kapt(libs.autoService)
     api(libs.autoService)
     compileOnly(libs.agp)
+    // 这里看自己是选用asm 还是 javassist,这里选择用asm
+    implementation(project(":transformer:core-asm"))
+//    implementation(project(":transformer:core-javassist"))
 }
 //import com.nova.build.Configuration
 
