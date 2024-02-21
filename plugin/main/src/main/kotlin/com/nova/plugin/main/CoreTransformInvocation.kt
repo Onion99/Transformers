@@ -145,6 +145,7 @@ class CoreTransformInvocation (
 
     private fun doTransform(block: (ExecutorService, Set<File>) -> Iterable<Future<*>>) {
         this.outputs.clear()
+        this.collectors.clear()
 
         val executor = Executors.newFixedThreadPool(CPU_NUM)
 
@@ -253,33 +254,16 @@ class CoreTransformInvocation (
     private fun File.transform(output: File) {
         outputs += output
         project.logger.info("Nova transforming $this => $output")
-//        transform(output) { bytecode ->
-//            bytecode.transform()
-//        }
+        this.transform(output) { bytecode ->
+            bytecode.transform()
+        }
     }
-//    private fun ByteArray.transform(): ByteArray {
-//        return transform.parameter.transformers.fold(this) { bytecode, transformer ->
-//            ClassWriter(ClassWriter.COMPUTE_MAXS).also { writer ->
-//                transform.parameter.transformers.fold(ClassNode().also { klass -> ClassReader(bytecode).accept(klass, 0) }) { a, transformer ->
-//                    transformer.threadMxBean.sumCpuTime(transformer) {
-//                        if (/*diffEnabled*/false) {
-//                            val left = a.textify()
-//                            transformer.transform(this@CoreTransformInvocation, a).also trans@{ b ->
-//                                val right = b.textify()
-//                                val diff = if (left == right) "" else left diff right
-//                                if (diff.isEmpty() || diff.isBlank()) {
-//                                    return@trans
-//                                }
-//                                transformer.getReport(this@CoreTransformInvocation, "${a.className}.diff").touch().writeText(diff)
-//                            }
-//                        } else {
-//                            transformer.transform(this@CoreTransformInvocation, a)
-//                        }
-//                    }
-//                }.accept(writer)
-//            }.toByteArray()
-//        }
-//    }
+
+    private fun ByteArray.transform(): ByteArray {
+        return transformers.fold(this) { bytes, transformer ->
+            transformer.transform(this@CoreTransformInvocation, bytes)
+        }
+    }
 
     private fun <R> ThreadMXBean.sumCpuTime(transformer: ClassTransformer, action: () -> R): R {
         val ct0 = this.currentThreadCpuTime

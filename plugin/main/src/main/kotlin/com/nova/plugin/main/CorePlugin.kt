@@ -39,7 +39,7 @@ class CorePlugin :Plugin<Project> {
         }
         // ---- transform plugin list ------
         project.getAndroid<BaseExtension>().registerTransform(CoreTransform(
-            project.newTransformParameter("Onion transformer", lookupTransformers(project.buildscript.classLoader))
+            project.newTransformParameter("Nova transformer", lookupTransformers(project.buildscript.classLoader))
         ))
     }
 

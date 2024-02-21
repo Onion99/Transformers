@@ -21,6 +21,12 @@ val SCOPE_FULL_WITH_FEATURES: MutableSet<in QualifiedContent.Scope> = AGP.run { 
 
 class CoreTransform(val parameter: TransformParameter) : Transform() {
 
+    internal val verifyEnabled by lazy {
+        false
+    }
+    override fun isIncremental() = !verifyEnabled
+
+    override fun isCacheable() = !verifyEnabled
 
     override fun getName(): String  = parameter.name
 
@@ -34,7 +40,15 @@ class CoreTransform(val parameter: TransformParameter) : Transform() {
         else -> TODO("Not an Android project")
     }
 
-    override fun isIncremental(): Boolean  = false
+    override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> = when {
+        parameter.transformers.isEmpty() -> when {
+            parameter.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
+            parameter.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
+            parameter.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
+            else -> TODO("Not an Android project")
+        }
+        else -> super.getReferencedScopes()
+    }
 
 
     override fun transform(transformInvocation: TransformInvocation) {
