@@ -1,21 +1,20 @@
 package com.nova.star.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
-class ContainerActivity : Activity(), CoroutineScope by MainScope() {
+class ContainerActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(FrameLayout(this))
+        setContentView(FrameLayout(this).apply {
+            setBackgroundColor(Color.YELLOW)
+            layoutParams = ViewGroup.LayoutParams(-1,-1)
+        })
     }
 }

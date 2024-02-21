@@ -33,6 +33,7 @@
             android:name=".ui.ContainerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout|smallestScreenSize"
             android:exported="true"
+            android:theme="@style/AppTheme"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

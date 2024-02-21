@@ -22,7 +22,7 @@ plugins {
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
-    id("com.onion.plugin")
+//    id("com.onion.plugin")
 }
 android {
 
@@ -151,8 +151,10 @@ android {
 
 dependencies {
     // androidx
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.timber)
     implementation(libs.material)

@@ -30,25 +30,25 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.nova.sun.plugin:main:0.0.15")
+//        classpath("com.nova.sun.plugin:main:0.0.15")
     }
 }
 
 apply(from = "$rootDir/exclude_other_version.gradle")
 
 allprojects {
-    configurations{
-        val attrGroup = Attribute.of("pluginGroup", String::class.java)
-        val attrVersion = Attribute.of("pluginVersion", String::class.java)
-        create("pluginAttr"){
-            attributes {
-                attribute(attrGroup,Configuration.pluginGroup)
-                attribute(attrVersion,Configuration.pluginVersion)
-            }
-        }
-    }
     val noTransformerProject = arrayOf("app", "Transformers","transformer","plugin")
     if (!noTransformerProject.contains(name)) {
+        configurations{
+            val attrGroup = Attribute.of("pluginGroup", String::class.java)
+            val attrVersion = Attribute.of("pluginVersion", String::class.java)
+            create("pluginAttr"){
+                attributes {
+                    attribute(attrGroup,Configuration.pluginGroup)
+                    attribute(attrVersion,Configuration.pluginVersion)
+                }
+            }
+        }
         println("current project = ${name}")
         apply(plugin = "maven-publish")
         apply(plugin = "java")
