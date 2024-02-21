@@ -22,10 +22,12 @@ public class ShadowWebView {
     public static void preloadWebView(final Application app) {
         new Handler(Looper.getMainLooper()).post(() -> {
             try {
+                Log.e(TAG, "ShadowWebView -> Start");
                 Looper.myQueue().addIdleHandler(() -> {
                     startChromiumEngine(app);
                     return false;
                 });
+                Log.e(TAG, "ShadowWebView -> End");
             } catch (final Throwable t) {
                 Log.e(TAG, "Oops!", t);
             }
