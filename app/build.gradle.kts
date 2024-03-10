@@ -22,7 +22,7 @@ plugins {
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
-    id("com.onion.plugin")
+//    id("com.onion.plugin")
 }
 android {
 

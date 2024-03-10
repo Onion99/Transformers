@@ -54,5 +54,6 @@ dependencies {
     api(project(":transformer:util"))
     api(libs.agp)
     api("commons-codec:commons-codec:1.15")
+    api("com.squareup.okio:okio:3.8.0")
     api(gradleApi())
 }

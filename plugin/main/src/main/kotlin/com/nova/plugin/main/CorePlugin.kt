@@ -5,19 +5,24 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.pipeline.TransformTask
+import com.android.build.gradle.internal.tasks.MergeNativeLibsTask
 import com.nova.plugin.main.service.loadVariantProcessors
 import com.nova.plugin.main.service.lookupTransformers
-import com.nova.plugin.webview.WebViewTransformer
 import com.nova.transform.gradle.GTE_V3_6
 import com.nova.transform.gradle.compat.getAndroid
 import com.nova.transform.kotlinx.call
 import com.nova.transform.kotlinx.get
 import com.nova.transform.spi.VariantProcessor
+import okio.BufferedSink
+import okio.buffer
+import okio.sink
+import okio.source
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionAdapter
+import java.io.File
 
 
 class CorePlugin :Plugin<Project> {
@@ -41,6 +46,50 @@ class CorePlugin :Plugin<Project> {
         project.getAndroid<BaseExtension>().registerTransform(CoreTransform(
             project.newTransformParameter("Nova transformer", lookupTransformers(project.buildscript.classLoader))
         ))
+        // obscure plugin
+        val androidExtension = project.extensions.getByName("android") as AppExtension
+        val isEnableSoInsertCode = true
+        fun copyPythonFile(project: Project,fileName: String):File{
+            var targetSource: BufferedSink
+            val buildFile = File(project.buildDir,fileName)
+            if(!buildFile.exists()){
+                buildFile.createNewFile()
+            }
+            runCatching {
+                targetSource = buildFile.sink().buffer()
+                val resourceStream = javaClass.getResourceAsStream(File.separator + fileName)
+                val resourceSource = resourceStream!!.source()
+                targetSource.writeAll(resourceSource)
+                resourceSource.close()
+                targetSource.close()
+                return  buildFile
+            }.getOrElse {
+                it.printStackTrace()
+                return  buildFile
+            }
+        }
+        project.tasks.whenTaskAdded {task ->
+            if(task is MergeNativeLibsTask){
+                if(isEnableSoInsertCode){
+                    task.doLast {
+                        val separator = File.separator
+                        val buildDir = project.buildDir
+                        val tempSoDir = File(buildDir.absolutePath + separator
+                                + "generated" + separator
+                                + "obscure_plugin_cache" + separator
+                                + "tempt" + separator + task.variantName)
+                        val soHandlePyFile = copyPythonFile(project,"obscure_so.py")
+                        if(soHandlePyFile.exists()){
+                            val outputDir = task.outputDir.get().asFile
+                            val soOutputDir = outputDir.absolutePath + File.separator + "lib"
+                            // 获取每一个abi对应的绝对路径
+                            // 每个路径传进Python文件执行参数
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
     private fun Project.setup(processors: List<VariantProcessor>) {
