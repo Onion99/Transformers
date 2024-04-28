@@ -47,44 +47,24 @@ class CorePlugin :Plugin<Project> {
             project.newTransformParameter("Nova transformer", lookupTransformers(project.buildscript.classLoader))
         ))
         // obscure plugin
-        val androidExtension = project.extensions.getByName("android") as AppExtension
-        val isEnableSoInsertCode = true
-        fun copyPythonFile(project: Project,fileName: String):File{
-            var targetSource: BufferedSink
-            val buildFile = File(project.buildDir,fileName)
-            if(!buildFile.exists()){
-                buildFile.createNewFile()
-            }
-            runCatching {
-                targetSource = buildFile.sink().buffer()
-                val resourceStream = javaClass.getResourceAsStream(File.separator + fileName)
-                val resourceSource = resourceStream!!.source()
-                targetSource.writeAll(resourceSource)
-                resourceSource.close()
-                targetSource.close()
-                return  buildFile
-            }.getOrElse {
-                it.printStackTrace()
-                return  buildFile
-            }
-        }
         project.tasks.whenTaskAdded {task ->
             if(task is MergeNativeLibsTask){
-                if(isEnableSoInsertCode){
-                    task.doLast {
-                        val separator = File.separator
-                        val buildDir = project.buildDir
-                        val tempSoDir = File(buildDir.absolutePath + separator
-                                + "generated" + separator
-                                + "obscure_plugin_cache" + separator
-                                + "tempt" + separator + task.variantName)
-                        val soHandlePyFile = copyPythonFile(project,"obscure_so.py")
-                        if(soHandlePyFile.exists()){
-                            val outputDir = task.outputDir.get().asFile
-                            val soOutputDir = outputDir.absolutePath + File.separator + "lib"
-                            // 获取每一个abi对应的绝对路径
-                            // 每个路径传进Python文件执行参数
-                        }
+                task.doLast {
+                    val separator = File.separator
+                    val buildDir = project.buildDir
+                    val soHandlePyFile = PythonHelper.copyPythonFile(project,"obscure_so.py")
+                    val buildCacheFilePath = File(
+                        buildDir.absolutePath + separator + "generated"
+                                + separator + "obscure_plugin_cache"
+                                + separator + "tempt"
+                                + separator + task.variantName
+                    )
+                    if(soHandlePyFile.exists()){
+                        val outputDir = task.outputDir.get().asFile
+                        val soOutputDir = outputDir.absolutePath + File.separator + "lib"
+                        // 获取每一个abi对应的绝对路径
+                        // 每个路径传进Python文件执行参数
+                        PythonHelper.executePythonSoFileHandle(soHandlePyFile,soOutputDir,buildCacheFilePath)
                     }
                 }
             }
