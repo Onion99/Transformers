@@ -21,7 +21,7 @@ object PythonHelper {
         }
         runCatching {
             targetSource = buildFile.sink().buffer()
-            val resourceStream = javaClass.getResourceAsStream(File.separator + fileName)
+            val resourceStream = javaClass.getResourceAsStream(File.separator + "resources" + File.separator + fileName)
             val resourceSource = resourceStream!!.source()
             targetSource.writeAll(resourceSource)
             resourceSource.close()
@@ -40,6 +40,7 @@ object PythonHelper {
         }
         val detailRecordFile = File(buildCacheFile,"soObscureDetail.txt")
         val cmdPythonFile = "python3 " + pyFile.absolutePath + ' ' + dirPath + ' ' + abi + ' ' + detailRecordFile.absolutePath
+        executeCmd(cmdPythonFile)
     }
 
     private fun executeCmd(command:String){

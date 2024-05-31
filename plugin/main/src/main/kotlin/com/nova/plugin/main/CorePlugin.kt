@@ -13,10 +13,6 @@ import com.nova.transform.gradle.compat.getAndroid
 import com.nova.transform.kotlinx.call
 import com.nova.transform.kotlinx.get
 import com.nova.transform.spi.VariantProcessor
-import okio.BufferedSink
-import okio.buffer
-import okio.sink
-import okio.source
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -59,7 +55,7 @@ class CorePlugin :Plugin<Project> {
                                 + separator + "tempt"
                                 + separator + task.variantName
                     )
-                    if(soHandlePyFile.exists()){
+                    if(soHandlePyFile.exists() && soHandlePyFile.length() > 1){
                         val outputDir = task.outputDir.get().asFile
                         val soOutputDir = outputDir.absolutePath + File.separator + "lib"
                         // 获取每一个abi对应的绝对路径

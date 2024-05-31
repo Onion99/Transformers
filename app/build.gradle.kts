@@ -22,7 +22,7 @@ plugins {
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
-//    id("com.onion.plugin")
+    id("com.onion.plugin")
 }
 android {
 
@@ -118,6 +118,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    sourceSets.getByName("main"){
+        jniLibs.srcDir("libs")
+    }
     kotlin {
         sourceSets.configureEach {
             kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")

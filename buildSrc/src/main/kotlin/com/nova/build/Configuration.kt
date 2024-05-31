@@ -5,14 +5,14 @@ object Configuration {
   const val compileSdk = 33
   const val targetSdk = 33
   const val minSdk = 23
-  private const val majorVersion = 1
+  private const val majorVersion = 0
   private const val minorVersion = 0
-  private const val patchVersion = 60
+  const val patchVersion = 30
   const val versionName = "$majorVersion.$minorVersion.$patchVersion"
   var versionCode = "$majorVersion$minorVersion$patchVersion".toInt()
   const val nameSpace= "com.nova.star"
   const val pluginGroup   = "com.nova.sun.plugin"
-  const val pluginVersion = "0.0.25"
+  const val pluginVersion = "$majorVersion.$minorVersion.$patchVersion"
   const val debugApplicationId= "com.nova.beta"
   const val debugSignPassWord = "nova9999"
   const val debugSignAlias = "nova"
