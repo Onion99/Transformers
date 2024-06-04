@@ -13,6 +13,36 @@ object PythonHelper {
 
     private val supportAbi = arrayOf("armeabi-v7a", "arm64-v8a")
 
+    // ------------------------------------------------------------------------
+    // in MainTest.java
+    // this.getClass.getResource("/") -> "~/proj_dir/target/test-classes/"
+    // this.getClass.getResource(".") -> "~/proj_dir/target/test-classes/com/github/xyz/proj/"
+    // Thread.currentThread().getContextClassLoader().getResources(".") -> "~/proj_dir/target/test-classes/"
+    // Thread.currentThread().getContextClassLoader().getResources("/") ->  null
+    //  ├── src
+    // │   ├── main
+    // │   └── test
+    //│       ├── java
+    //│       │   └── com
+    //│       │       └── github
+    //│       │           └── xyz
+    //│       │               └── proj
+    //│       │                   ├── MainTest.java
+    //│       │                   └── TestBase.java
+    //│       └── resources
+    //│           └── abcd.txt
+    //└── target
+    //    └── test-classes  <-- this.getClass.getResource("/")
+    //        │              `--Thread.currentThread().getContextClassLoader().getResources(".")
+    //        ├── com
+    //        │   └── github
+    //        │       └── xyz
+    //        │           └── proj  <-- this.getClass.getResource(".")
+    //        │               ├── MainTest.class
+    //        │               └── TestBase.class
+    //        └── resources
+    //            └── abcd.txt
+    // ------------------------------------------------------------------------
     fun copyPythonFile(project: Project, fileName: String):File{
         var targetSource: BufferedSink
         val buildFile = File(project.buildDir,fileName)
@@ -21,7 +51,7 @@ object PythonHelper {
         }
         runCatching {
             targetSource = buildFile.sink().buffer()
-            val resourceStream = javaClass.getResourceAsStream(File.separator + "resources" + File.separator + fileName)
+            val resourceStream = javaClass.getResourceAsStream("/$fileName")
             val resourceSource = resourceStream!!.source()
             targetSource.writeAll(resourceSource)
             resourceSource.close()

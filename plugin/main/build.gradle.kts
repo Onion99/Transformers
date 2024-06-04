@@ -29,7 +29,9 @@ plugins {
         }
     }
 }*/
-
+//sourceSets.getByName("main"){
+//    resources.srcDir("resources")
+//}
 
 gradlePlugin{
     plugins {
