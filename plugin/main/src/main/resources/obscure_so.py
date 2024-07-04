@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import json
-
 import lief
+try:
+    import lief
+    print(f"{lief} is installed.")
+except ImportError:
+    print(f"{lief} is not installed.")
 import os
 import sys
 import random

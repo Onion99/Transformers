@@ -55,6 +55,7 @@ dependencies {
     api(project(":transformer:core-asm"))
     api(project(":transformer:util"))
     api(libs.agp)
+    api(libs.gson)
     api("commons-codec:commons-codec:1.15")
     api("com.squareup.okio:okio:3.8.0")
     api(gradleApi())

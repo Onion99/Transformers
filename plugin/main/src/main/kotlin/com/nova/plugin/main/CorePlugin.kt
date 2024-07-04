@@ -48,6 +48,7 @@ class CorePlugin :Plugin<Project> {
                 task.doLast {
                     val separator = File.separator
                     val buildDir = project.buildDir
+                    PythonHelper.currentProject = project
                     val soHandlePyFile = PythonHelper.copyPythonFile(project,"obscure_so.py")
                     val buildCacheFilePath = File(
                         buildDir.absolutePath + separator + "generated"
@@ -60,6 +61,7 @@ class CorePlugin :Plugin<Project> {
                         val soOutputDir = outputDir.absolutePath + File.separator + "lib"
                         // 获取每一个abi对应的绝对路径
                         // 每个路径传进Python文件执行参数
+                        PythonHelper.generateFileName(soOutputDir)
                         PythonHelper.executePythonSoFileHandle(soHandlePyFile,soOutputDir,buildCacheFilePath)
                     }
                 }

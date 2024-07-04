@@ -1,17 +1,22 @@
 package com.nova.plugin.main
 
+import com.android.utils.FileUtils
+import com.google.gson.Gson
 import okio.BufferedSink
 import okio.buffer
 import okio.sink
 import okio.source
 import org.gradle.api.Project
+import org.gradle.api.logging.LogLevel
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.util.UUID
 
 object PythonHelper {
 
     private val supportAbi = arrayOf("armeabi-v7a", "arm64-v8a")
+    lateinit var currentProject: Project
 
     // ------------------------------------------------------------------------
     // in MainTest.java
@@ -64,16 +69,19 @@ object PythonHelper {
     }
 
     fun executePythonSoFileHandle(pyFile: File,dirPath: String,buildCacheFile:File){
+        if(soObscureNameMap.isEmpty()) return
         val abi = StringBuffer()
         supportAbi.forEach {
             abi.append(it).append(",")
         }
         val detailRecordFile = File(buildCacheFile,"soObscureDetail.txt")
+        FileUtils.writeToFile(detailRecordFile, Gson().toJson(soObscureNameMap))
         val cmdPythonFile = "python3 " + pyFile.absolutePath + ' ' + dirPath + ' ' + abi + ' ' + detailRecordFile.absolutePath
         executeCmd(cmdPythonFile)
     }
 
     private fun executeCmd(command:String){
+        currentProject.logger.log(LogLevel.WARN,"executeCmd -> $command")
         val process = Runtime.getRuntime().exec(command)
         val errorInput = StringBuilder()
         val inputStream = process.inputStream
@@ -99,10 +107,13 @@ object PythonHelper {
         }
     }
 
+    private var soObscureDetails = mutableListOf<SoObscureDetail>()
+    private var soObscureNameMap = hashMapOf<String,String>()
+
     fun generateFileName(dirPath:String){
-        val nameList = arrayListOf<String>()
-        supportAbi.forEach {
-            putChildFileNames(nameList,dirPath,it)
+        val soNameList = arrayListOf<String>()
+        supportAbi.forEach { abi ->
+            putChildFileNames(soNameList,dirPath,abi)
         }
         val filterList = hashSetOf(
             //arrayOf()
@@ -118,6 +129,19 @@ object PythonHelper {
             "libturbojpeg.so",
             "libNetHtProtect.so"
         )
+        var index = 0
+        soNameList.forEach { soFileName ->
+            index++
+            val generateFileName: String
+            if(soFileName.endsWith(".so") && soFileName.startsWith("lib")){
+                val randomStr: String = UUID.randomUUID().toString().substring(0, 6)
+                generateFileName = "lib$index$randomStr.so"
+                soObscureDetails.add(SoObscureDetail(soFileName,generateFileName,null))
+
+                soObscureNameMap[soFileName] = generateFileName
+                soObscureNameMap[soFileName.substring(3,soFileName.length -3)] = generateFileName.substring(3,generateFileName.length -3)
+            }
+        }
     }
 
     private fun putChildFileNames(arrayList:ArrayList<String>, dirPath:String , filename:String ){
