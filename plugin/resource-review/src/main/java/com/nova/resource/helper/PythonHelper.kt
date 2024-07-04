@@ -1,7 +1,8 @@
-package com.nova.plugin.main
+package com.nova.resource.helper
 
 import com.android.utils.FileUtils
 import com.google.gson.Gson
+import com.nova.resource.bean.SoObscureDetail
 import okio.BufferedSink
 import okio.buffer
 import okio.sink

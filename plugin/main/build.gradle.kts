@@ -47,6 +47,7 @@ gradlePlugin{
 dependencies {
     // ---- plugin ------
     api(project(":plugin:webview"))
+    api(project(":plugin:resource-review"))
     // ---- dependencies ------
     api(project(":transformer:gradle"))
     api(project(":transformer:gradle-api-v74"))

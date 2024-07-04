@@ -1,4 +1,4 @@
-package com.nova.plugin.main
+package com.nova.resource.bean
 
 data class SoObscureDetail(
     var name:String,
