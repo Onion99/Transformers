@@ -8,4 +8,6 @@ dependencies {
     api(project(":transformer:gradle"))
     api(libs.gson)
     api(libs.okio)
+    api(libs.android.tools.layoutlib)
+    api(libs.android.tools.sdk.common)
 }

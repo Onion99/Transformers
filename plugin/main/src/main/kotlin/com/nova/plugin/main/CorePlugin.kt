@@ -5,9 +5,9 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.pipeline.TransformTask
-import com.android.build.gradle.internal.tasks.MergeNativeLibsTask
 import com.nova.plugin.main.service.loadVariantProcessors
 import com.nova.plugin.main.service.lookupTransformers
+import com.nova.resource.common.AppResourceDirTask
 import com.nova.resource.so.SoResourceTask
 import com.nova.transform.gradle.GTE_V3_6
 import com.nova.transform.gradle.compat.getAndroid
@@ -19,7 +19,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionAdapter
-import java.io.File
 
 
 class CorePlugin :Plugin<Project> {
@@ -45,6 +44,7 @@ class CorePlugin :Plugin<Project> {
         ))
         // resource plugin
         project.tasks.whenTaskAdded(SoResourceTask())
+        project.tasks.whenTaskAdded(AppResourceDirTask())
     }
 
     private fun Project.setup(processors: List<VariantProcessor>) {

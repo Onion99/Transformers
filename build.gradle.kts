@@ -30,7 +30,7 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.nova.sun.plugin:main:0.0.64")
+        classpath("com.nova.sun.plugin:main:0.0.84")
     }
 }
 

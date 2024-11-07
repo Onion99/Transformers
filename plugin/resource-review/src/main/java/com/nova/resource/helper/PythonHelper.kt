@@ -81,6 +81,12 @@ object PythonHelper {
         executeCmd(cmdPythonFile)
     }
 
+    fun executePythonImageFileHandle(pyFile: File,outputPath: String){
+        val isDebug = true
+        val cmdPythonFile = "python3 " + pyFile.absolutePath + ' ' + isDebug + ' ' + outputPath
+        executeCmd(cmdPythonFile)
+    }
+
     private fun executeCmd(command:String){
         currentProject.logger.log(LogLevel.WARN,"executeCmd -> $command")
         val process = Runtime.getRuntime().exec(command)
