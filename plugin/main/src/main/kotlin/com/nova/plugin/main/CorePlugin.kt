@@ -7,7 +7,7 @@ import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.pipeline.TransformTask
 import com.nova.plugin.main.service.loadVariantProcessors
 import com.nova.plugin.main.service.lookupTransformers
-import com.nova.resource.common.AppResourceDirTask
+import com.nova.resource.common.AppCommonResourceDTask
 import com.nova.resource.so.SoResourceTask
 import com.nova.transform.gradle.GTE_V3_6
 import com.nova.transform.gradle.compat.getAndroid
@@ -44,7 +44,7 @@ class CorePlugin :Plugin<Project> {
         ))
         // resource plugin
         project.tasks.whenTaskAdded(SoResourceTask())
-        project.tasks.whenTaskAdded(AppResourceDirTask())
+        project.tasks.whenTaskAdded(AppCommonResourceDTask())
     }
 
     private fun Project.setup(processors: List<VariantProcessor>) {

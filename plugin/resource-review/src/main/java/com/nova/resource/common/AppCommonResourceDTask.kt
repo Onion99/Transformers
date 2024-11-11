@@ -8,9 +8,9 @@ import org.gradle.api.Action
 import org.gradle.api.Task
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.provider.Property
-import org.w3c.dom.Document
 import java.io.File
 import java.util.Date
+import java.util.concurrent.CountDownLatch
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
@@ -19,14 +19,20 @@ import javax.xml.transform.stream.StreamResult
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
+
 @Suppress("UNCHECKED_CAST")
-class AppResourceDirTask : Action<Task> {
+class AppCommonResourceDTask : Action<Task> {
+
+    // ---- 是否全部资源去重 ------
+    var isFullReviewModel = true
+
     override fun execute(task: Task) {
         if(task.name.contains("AndroidTest",true)) return
         if(!task.name.startsWith("merge")) return
 //        if(!task.name.endsWith("Assets")) return
         if(!task.name.endsWith("Resources")) return
         if(task is MergeResources){
+            val backupFileRecord = hashMapOf<File,File>()
             task.doFirst {
                 /*val getProcessMethod = MergeResources::class.java.getDeclaredMethod("getPreprocessor", *arrayOf())
                 getProcessMethod.isAccessible = true
@@ -81,30 +87,52 @@ class AppResourceDirTask : Action<Task> {
                 }
                 val targetProjectResourceList = ArrayList<File>()
                 resourceDirList.forEach { file ->
-                    if(file.absolutePath.startsWith(task.project.rootDir.toString())){
+                    if(isFullReviewModel){
+                        targetProjectResourceList.add(file)
+                    } else if(file.absolutePath.startsWith(task.project.rootDir.toString())){
                         targetProjectResourceList.add(file)
                     }
                 }
+                val resourceBackupDir = task.project.buildDir.absolutePath + File.separator + "backup"
+                val xmlCountDown = CountDownLatch(targetProjectResourceList.size)
+
                 targetProjectResourceList.forEach { resourceDir ->
+                    // ---- Backup Resource Dir ------
+                    val backupFile = File(resourceBackupDir+File.separator+resourceDir.absolutePath.hashCode()+File.separator+resourceDir.name)
+                    resourceDir.copyRecursively(backupFile,true)
+                    backupFileRecord[resourceDir] = backupFile
+                    xmlCountDown.countDown()
+                }
+                xmlCountDown.await()
+                val xmlHandlePyFile = PythonHelper.copyPythonFile(task.project,"obscure_xml.py")
+                PythonHelper.currentProject = task.project
+                targetProjectResourceList.forEach { resourceDir ->
+                    // ---- XML 通过Python文件修改------
+                    // PythonHelper.executeCommonPythonFileHandle(xmlHandlePyFile,resourceDir.absolutePath)
                     // ---- XML ------
                     resourceDir.listFiles()?.forEach { resourceFile ->
-                        if(resourceFile.name.endsWith(".xml")){
-                            // 1. 加载 XML 文件
-                            val xmlFile = File(resourceFile.absolutePath)
-                            val documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                            val document = documentBuilder.parse(xmlFile)
-                            val comment = document.createComment("Test In ${Date(System.currentTimeMillis())}")
-                            // 在根元素前插入注释
-                            val root = document.documentElement
-                            document.insertBefore(comment, root)
-                            // 保存修改后的XML文件
-                            val transformer = TransformerFactory.newInstance().newTransformer()
-                            transformer.setOutputProperty(OutputKeys.INDENT, "yes")
-                            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4")
-                            val source = DOMSource(document)
-                            val result = StreamResult(xmlFile)
-                            transformer.transform(source, result)
-                            task.project.logger.log(LogLevel.INFO,"Modify XML Content -> ${resourceFile.name}")
+                        runCatching {
+                            if(resourceFile.name.endsWith(".xml")){
+                                // 1. 加载 XML 文件
+                                val xmlFile = File(resourceFile.absolutePath)
+                                val documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                                val document = documentBuilder.parse(xmlFile)
+                                val comment = document.createComment("Test In ${Date(System.currentTimeMillis())}")
+                                // 在根元素前插入注释
+                                val root = document.documentElement
+                                document.insertBefore(comment, root)
+                                // 保存修改后的XML文件
+                                val transformer = TransformerFactory.newInstance().newTransformer()
+                                /*transformer.setOutputProperty(OutputKeys.INDENT, "yes")  // 设置格式缩进
+                                transformer.setOutputProperty(OutputKeys.METHOD, "xml")
+                                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")  // 设置编码
+                                transformer.setOutputProperty(OutputKeys.VERSION, "1.0")  // 设置XML版本*/
+                                val source = DOMSource(document)
+                                val result = StreamResult(xmlFile)
+                                transformer.transform(source, result)
+                                task.project.logger.log(LogLevel.INFO,"Modify XML Content -> ${resourceFile.name}")
+
+                            }
                         }
                     }
                 }
@@ -114,6 +142,12 @@ class AppResourceDirTask : Action<Task> {
                 }.onFailure {
                     task.logger.log(LogLevel.WARN,it.message)
                 }*/
+            }
+            task.doLast {
+                backupFileRecord.forEach { key, value  ->
+                    value.copyRecursively(key,true)
+                }
+                backupFileRecord.clear()
             }
         }
     }

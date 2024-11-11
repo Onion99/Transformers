@@ -5,9 +5,9 @@ object Configuration {
   const val compileSdk = 33
   const val targetSdk = 33
   const val minSdk = 23
-  private const val majorVersion = 0
+  private const val majorVersion = 1
   private const val minorVersion = 0
-  const val patchVersion = 84
+  const val patchVersion = 30
   const val versionName = "$majorVersion.$minorVersion.$patchVersion"
   var versionCode = "$majorVersion$minorVersion$patchVersion".toInt()
   const val nameSpace= "com.nova.star"
