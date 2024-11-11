@@ -94,16 +94,16 @@ class AppCommonResourceDTask : Action<Task> {
                     }
                 }
                 val resourceBackupDir = task.project.buildDir.absolutePath + File.separator + "backup"
-                val xmlCountDown = CountDownLatch(targetProjectResourceList.size)
+                val xmlCopyCountDown = CountDownLatch(targetProjectResourceList.size)
 
                 targetProjectResourceList.forEach { resourceDir ->
                     // ---- Backup Resource Dir ------
                     val backupFile = File(resourceBackupDir+File.separator+resourceDir.absolutePath.hashCode()+File.separator+resourceDir.name)
                     resourceDir.copyRecursively(backupFile,true)
                     backupFileRecord[resourceDir] = backupFile
-                    xmlCountDown.countDown()
+                    xmlCopyCountDown.countDown()
                 }
-                xmlCountDown.await()
+                xmlCopyCountDown.await()
                 val xmlHandlePyFile = PythonHelper.copyPythonFile(task.project,"obscure_xml.py")
                 PythonHelper.currentProject = task.project
                 targetProjectResourceList.forEach { resourceDir ->
@@ -115,24 +115,27 @@ class AppCommonResourceDTask : Action<Task> {
                             if(resourceFile.name.endsWith(".xml")){
                                 // 1. 加载 XML 文件
                                 val xmlFile = File(resourceFile.absolutePath)
-                                val documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                                val documentBuilder = DocumentBuilderFactory.newInstance().apply {
+                                    isNamespaceAware = true
+                                }.newDocumentBuilder()
                                 val document = documentBuilder.parse(xmlFile)
                                 val comment = document.createComment("Test In ${Date(System.currentTimeMillis())}")
                                 // 在根元素前插入注释
                                 val root = document.documentElement
+                                root.setAttribute("xmlns:tools", "http://schemas.android.com/tools")
                                 document.insertBefore(comment, root)
                                 // 保存修改后的XML文件
                                 val transformer = TransformerFactory.newInstance().newTransformer()
-                                /*transformer.setOutputProperty(OutputKeys.INDENT, "yes")  // 设置格式缩进
+                                transformer.setOutputProperty(OutputKeys.INDENT, "yes")  // 设置格式缩进
                                 transformer.setOutputProperty(OutputKeys.METHOD, "xml")
                                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")  // 设置编码
-                                transformer.setOutputProperty(OutputKeys.VERSION, "1.0")  // 设置XML版本*/
+                                transformer.setOutputProperty(OutputKeys.VERSION, "1.0")  // 设置XML版本
                                 val source = DOMSource(document)
                                 val result = StreamResult(xmlFile)
                                 transformer.transform(source, result)
-                                task.project.logger.log(LogLevel.INFO,"Modify XML Content -> ${resourceFile.name}")
-
                             }
+                        }.getOrElse {
+                            task.project.logger.log(LogLevel.ERROR,"Modify XML Content Error -> ${it.message}")
                         }
                     }
                 }
