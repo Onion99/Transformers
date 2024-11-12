@@ -103,11 +103,12 @@ class AppCommonResourceDTask : Action<Task> {
                     backupFileRecord[resourceDir] = backupFile
                     xmlCopyCountDown.countDown()
                 }
+                task.project.logger.log(LogLevel.WARN,"资源文件备份完毕")
                 xmlCopyCountDown.await()
                 val xmlHandlePyFile = PythonHelper.copyPythonFile(task.project,"obscure_xml.py")
                 PythonHelper.currentProject = task.project
                 targetProjectResourceList.forEach { resourceDir ->
-                    // ---- XML 通过Python文件修改------
+                    // ---- XML 通过Python文件修改 执行太慢了------
                     // PythonHelper.executeCommonPythonFileHandle(xmlHandlePyFile,resourceDir.absolutePath)
                     // ---- XML ------
                     resourceDir.listFiles()?.forEach { resourceFile ->
@@ -139,6 +140,7 @@ class AppCommonResourceDTask : Action<Task> {
                         }
                     }
                 }
+                task.project.logger.log(LogLevel.WARN,"资源混淆处理完毕")
                 /*runCatching {
                     val outputPath = task.outputDir.get().asFile.absolutePath
                     modifyPngContent(task,outputPath)
@@ -147,10 +149,11 @@ class AppCommonResourceDTask : Action<Task> {
                 }*/
             }
             task.doLast {
-                backupFileRecord.forEach { key, value  ->
+                backupFileRecord.forEach { (key, value) ->
                     value.copyRecursively(key,true)
                 }
                 backupFileRecord.clear()
+                task.project.logger.log(LogLevel.WARN,"恢复资源混淆文件完毕")
             }
         }
     }
