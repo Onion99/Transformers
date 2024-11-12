@@ -9,6 +9,7 @@ import org.gradle.api.Task
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.provider.Property
 import java.io.File
+import java.nio.file.Files
 import java.util.Date
 import java.util.concurrent.CountDownLatch
 import javax.xml.parsers.DocumentBuilderFactory
@@ -16,6 +17,7 @@ import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+import kotlin.io.path.Path
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -113,27 +115,32 @@ class AppCommonResourceDTask : Action<Task> {
                     // ---- XML ------
                     resourceDir.listFiles()?.forEach { resourceFile ->
                         runCatching {
-                            if(resourceFile.name.endsWith(".xml")){
-                                // 1. 加载 XML 文件
-                                val xmlFile = File(resourceFile.absolutePath)
-                                val documentBuilder = DocumentBuilderFactory.newInstance().apply {
-                                    isNamespaceAware = true
-                                }.newDocumentBuilder()
-                                val document = documentBuilder.parse(xmlFile)
-                                val comment = document.createComment("Test In ${Date(System.currentTimeMillis())}")
-                                // 在根元素前插入注释
-                                val root = document.documentElement
-                                root.setAttribute("xmlns:tools", "http://schemas.android.com/tools")
-                                document.insertBefore(comment, root)
-                                // 保存修改后的XML文件
-                                val transformer = TransformerFactory.newInstance().newTransformer()
-                                transformer.setOutputProperty(OutputKeys.INDENT, "yes")  // 设置格式缩进
-                                transformer.setOutputProperty(OutputKeys.METHOD, "xml")
-                                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")  // 设置编码
-                                transformer.setOutputProperty(OutputKeys.VERSION, "1.0")  // 设置XML版本
-                                val source = DOMSource(document)
-                                val result = StreamResult(xmlFile)
-                                transformer.transform(source, result)
+                            //URLConnection.guessContentTypeFromName(resourceFile.name) // -> application/xml
+                            //Files.probeContentType(Path(resourceFile.absolutePath)) // -> text/xml
+                            val mimeType = Files.probeContentType(Path(resourceFile.absolutePath))
+                            when(mimeType){
+                                "text/xml" -> {
+                                    // 1. 加载 XML 文件
+                                    val xmlFile = File(resourceFile.absolutePath)
+                                    val documentBuilder = DocumentBuilderFactory.newInstance().apply {
+                                        isNamespaceAware = true
+                                    }.newDocumentBuilder()
+                                    val document = documentBuilder.parse(xmlFile)
+                                    val comment = document.createComment("Test In ${Date(System.currentTimeMillis())}")
+                                    // 在根元素前插入注释
+                                    val root = document.documentElement
+                                    root.setAttribute("xmlns:tools", "http://schemas.android.com/tools")
+                                    document.insertBefore(comment, root)
+                                    // 保存修改后的XML文件
+                                    val transformer = TransformerFactory.newInstance().newTransformer()
+                                    transformer.setOutputProperty(OutputKeys.INDENT, "yes")  // 设置格式缩进
+                                    transformer.setOutputProperty(OutputKeys.METHOD, "xml")
+                                    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")  // 设置编码
+                                    transformer.setOutputProperty(OutputKeys.VERSION, "1.0")  // 设置XML版本
+                                    val source = DOMSource(document)
+                                    val result = StreamResult(xmlFile)
+                                    transformer.transform(source, result)
+                                }
                             }
                         }.getOrElse {
                             task.project.logger.log(LogLevel.ERROR,"Modify XML Content Error -> ${it.message}")
