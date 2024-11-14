@@ -10,4 +10,5 @@ dependencies {
     api(libs.okio)
     api(libs.android.tools.layoutlib)
     api(libs.android.tools.sdk.common)
+    implementation("com.github.umjammer:vavi-image-webp:0.2.5")
 }

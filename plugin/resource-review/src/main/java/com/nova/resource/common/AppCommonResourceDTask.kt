@@ -12,12 +12,14 @@ import java.io.File
 import java.nio.file.Files
 import java.util.Date
 import java.util.concurrent.CountDownLatch
+import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 import kotlin.io.path.Path
+import kotlin.random.Random
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -27,14 +29,22 @@ class AppCommonResourceDTask : Action<Task> {
 
     // ---- 是否全部资源去重 ------
     var isFullReviewModel = true
-
+    // ---- 资源备份记录 ------
+    val backupFileRecord = hashMapOf<File,File>()
     override fun execute(task: Task) {
-        if(task.name.contains("AndroidTest",true)) return
+        if(task.name == "assembleDebug" || task.name == "assembleRelease") {
+            task.doLast {
+                backupFileRecord.forEach { (key, value) ->
+                    value.copyRecursively(key,true)
+                }
+                backupFileRecord.clear()
+                task.project.logger.log(LogLevel.WARN,"恢复资源混淆文件完毕")
+            }
+        }
         if(!task.name.startsWith("merge")) return
 //        if(!task.name.endsWith("Assets")) return
         if(!task.name.endsWith("Resources")) return
         if(task is MergeResources){
-            val backupFileRecord = hashMapOf<File,File>()
             task.doFirst {
                 /*val getProcessMethod = MergeResources::class.java.getDeclaredMethod("getPreprocessor", *arrayOf())
                 getProcessMethod.isAccessible = true
@@ -112,7 +122,9 @@ class AppCommonResourceDTask : Action<Task> {
                 targetProjectResourceList.forEach { resourceDir ->
                     // ---- XML 通过Python文件修改 执行太慢了------
                     // PythonHelper.executeCommonPythonFileHandle(xmlHandlePyFile,resourceDir.absolutePath)
-                    // ---- XML ------
+                    // ---- Image,注册 WebP 读写支持 ------
+                    ImageIO.scanForPlugins()
+                    //ImageIO.getImageReadersByFormatName("webp").next()
                     resourceDir.listFiles()?.forEach { resourceFile ->
                         runCatching {
                             //URLConnection.guessContentTypeFromName(resourceFile.name) // -> application/xml
@@ -141,9 +153,37 @@ class AppCommonResourceDTask : Action<Task> {
                                     val result = StreamResult(xmlFile)
                                     transformer.transform(source, result)
                                 }
+                                "image/png" -> {
+                                    if(resourceFile.absolutePath.contains("9.png")) return@runCatching
+                                    val image = ImageIO.read(resourceFile)
+                                    // 获取图片的宽和高
+                                    val width = image.width
+                                    val height = image.height
+                                    // 2. 生成随机的像素坐标
+                                    val randomX = Random.nextInt(0, width)
+                                    val randomY = Random.nextInt(0, height)
+                                    // 获取当前像素的颜色值，并随机更改一个像素的颜色
+                                    val rgb = image.getRGB(randomX, randomY)
+                                    // 提取原来的 RGB 值
+                                    val originalAlpha = (rgb shr 24) and 0xFF  // 提取原始 alpha 值
+                                    val red = (rgb shr 16) and 0xFF            // 提取红色通道
+                                    val green = (rgb shr 8) and 0xFF           // 提取绿色通道
+                                    val blue = rgb and 0xFF                    // 提取蓝色通道
+                                    // 随机生成一个新的 alpha 值（0-255）
+                                    val newAlpha = Random.nextInt(256)
+                                    // 组合新的 ARGB 值
+                                    val newRgb = (newAlpha shl 24) or (red shl 16) or (green shl 8) or blue
+                                    // 设置新的像素颜色（带有新 alpha）
+                                    image.setRGB(randomX, randomY, newRgb)
+                                    // 将修改后的图片写回文件
+                                    ImageIO.write(image, mimeType.split("/")[1].trim(), resourceFile)
+                                }
+                                else -> {
+                                    task.project.logger.log(LogLevel.ERROR,"Unknown Resource File -> $resourceFile")
+                                }
                             }
                         }.getOrElse {
-                            task.project.logger.log(LogLevel.ERROR,"Modify XML Content Error -> ${it.message}")
+                            task.project.logger.log(LogLevel.ERROR,"Modify Resource Content Error -> ${it.message}")
                         }
                     }
                 }
@@ -154,13 +194,6 @@ class AppCommonResourceDTask : Action<Task> {
                 }.onFailure {
                     task.logger.log(LogLevel.WARN,it.message)
                 }*/
-            }
-            task.doLast {
-                backupFileRecord.forEach { (key, value) ->
-                    value.copyRecursively(key,true)
-                }
-                backupFileRecord.clear()
-                task.project.logger.log(LogLevel.WARN,"恢复资源混淆文件完毕")
             }
         }
     }
