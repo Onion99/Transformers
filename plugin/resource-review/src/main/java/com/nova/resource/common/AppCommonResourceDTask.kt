@@ -28,9 +28,9 @@ import kotlin.reflect.jvm.isAccessible
 class AppCommonResourceDTask : Action<Task> {
 
     // ---- 是否全部资源去重 ------
-    var isFullReviewModel = true
+    private var isFullReviewModel = true
     // ---- 资源备份记录 ------
-    val backupFileRecord = hashMapOf<File,File>()
+    private val backupFileRecord = hashMapOf<File,File>()
     override fun execute(task: Task) {
         if(task.name == "assembleDebug" || task.name == "assembleRelease") {
             task.doLast {
