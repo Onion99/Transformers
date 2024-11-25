@@ -1,5 +1,8 @@
 package com.nova.plugin.main
 
+import com.android.build.api.instrumentation.FramesComputationMode
+import com.android.build.api.instrumentation.InstrumentationScope
+import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
@@ -7,6 +10,7 @@ import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.pipeline.TransformTask
 import com.nova.plugin.main.service.loadVariantProcessors
 import com.nova.plugin.main.service.lookupTransformers
+import com.nova.resource.clazz.ConfuseClassVisitorFactory
 import com.nova.resource.common.AppCommonResourceDTask
 import com.nova.resource.so.SoResourceTask
 import com.nova.transform.gradle.GTE_V3_6
@@ -45,6 +49,13 @@ class CorePlugin :Plugin<Project> {
         // resource plugin
         project.tasks.whenTaskAdded(SoResourceTask())
         project.tasks.whenTaskAdded(AppCommonResourceDTask())
+        // class plugin
+        project.extensions.getByType(AndroidComponentsExtension::class.java).onVariants {
+            // 可设置不同的栈帧计算模式
+            it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_CLASSES)
+            // 控制是否需要扫描依赖库代码， ALL / PROJECT
+            it.instrumentation.transformClassesWith(ConfuseClassVisitorFactory::class.java,InstrumentationScope.ALL){}
+        }
     }
 
     private fun Project.setup(processors: List<VariantProcessor>) {
