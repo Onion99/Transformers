@@ -53,8 +53,11 @@ class CorePlugin :Plugin<Project> {
         project.extensions.getByType(AndroidComponentsExtension::class.java).onVariants {
             // 可设置不同的栈帧计算模式
             it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_CLASSES)
-            // 控制是否需要扫描依赖库代码， ALL / PROJECT
-            it.instrumentation.transformClassesWith(ConfuseClassVisitorFactory::class.java,InstrumentationScope.ALL){}
+            // 将 ALL 改为 PROJECT，只对项目本身的类进行插桩
+            it.instrumentation.transformClassesWith(
+                ConfuseClassVisitorFactory::class.java,
+                InstrumentationScope.PROJECT
+            ){}
         }
     }
 

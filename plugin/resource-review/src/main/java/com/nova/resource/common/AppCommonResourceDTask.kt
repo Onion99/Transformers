@@ -32,6 +32,7 @@ class AppCommonResourceDTask : Action<Task> {
     // ---- 资源备份记录 ------
     private val backupFileRecord = hashMapOf<File,File>()
     override fun execute(task: Task) {
+        if(task.name != "assembleDebug" && task.name != "assembleRelease") return
         if(task.name == "assembleDebug" || task.name == "assembleRelease") {
             task.doLast {
                 backupFileRecord.forEach { (key, value) ->
