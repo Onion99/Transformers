@@ -54,6 +54,8 @@ class CorePlugin :Plugin<Project> {
             // 可设置不同的栈帧计算模式
             it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_CLASSES)
             // 将 ALL 改为 PROJECT，只对项目本身的类进行插桩
+            // InstrumentationScope.ALL 会对所有类（包括依赖库中的类）进行插桩
+            // 当尝试对不存在的类或不应该被修改的类进行插桩时，可能会导致 ClassNotFoundException
             it.instrumentation.transformClassesWith(
                 ConfuseClassVisitorFactory::class.java,
                 InstrumentationScope.PROJECT
