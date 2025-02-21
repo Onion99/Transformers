@@ -11,7 +11,9 @@ import com.android.build.gradle.internal.pipeline.TransformTask
 import com.nova.plugin.main.service.loadVariantProcessors
 import com.nova.plugin.main.service.lookupTransformers
 import com.nova.resource.clazz.ConfuseClassVisitorFactory
+import com.nova.resource.common.AppCommonAssetFileTask
 import com.nova.resource.common.AppCommonResourceDTask
+import com.nova.resource.common.AssetsObfuscateTask
 import com.nova.resource.so.SoResourceTask
 import com.nova.transform.gradle.GTE_V3_6
 import com.nova.transform.gradle.compat.getAndroid
@@ -47,8 +49,9 @@ class CorePlugin :Plugin<Project> {
             project.newTransformParameter("Nova transformer", lookupTransformers(project.buildscript.classLoader))
         ))
         // resource plugin
-        project.tasks.whenTaskAdded(SoResourceTask())
         project.tasks.whenTaskAdded(AppCommonResourceDTask())
+        // assets plugin
+        project.tasks.whenTaskAdded(AppCommonAssetFileTask())
         // class plugin
         project.extensions.getByType(AndroidComponentsExtension::class.java).onVariants {
             // 可设置不同的栈帧计算模式
