@@ -1,5 +1,7 @@
 // KTS教程: https://github.com/gradle/kotlin-dsl-samples/blob/master/samples/maven-publish/build.gradle.kts
 import  com.nova.build.Configuration
+import org.gradle.api.Project
+import java.io.ByteArrayOutputStream
 
 // ------------------------------------------------------------------------
 // 为下面配置AllProjects做编译导入支持
@@ -30,11 +32,39 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-//        classpath("com.nova.sun.plugin:main:1.0.86")
+        classpath("com.nova.sun.plugin:main:1.0.86")
     }
 }
 
 apply(from = "$rootDir/exclude_other_version.gradle")
+
+fun Project.getLatestGitTag(): String {
+    return try {
+        val stdout = ByteArrayOutputStream()
+        exec {
+            commandLine("git", "describe", "--tags", "--abbrev=0")
+            standardOutput = stdout
+        }
+        stdout.toString().trim().removePrefix("v")
+    } catch (e: Exception) {
+        // 如果没有 tag，返回默认版本
+        Configuration.pluginVersion
+    }
+}
+
+fun Project.getGitVersion(): String {
+    return try {
+        val stdout = ByteArrayOutputStream()
+        exec {
+            // 获取最近的 tag 和提交信息
+            commandLine("git", "describe", "--tags", "--long")
+            standardOutput = stdout
+        }
+        stdout.toString().trim()
+    } catch (e: Exception) {
+        Configuration.pluginVersion
+    }
+}
 
 allprojects {
     val noTransformerProject = arrayOf("app", "Transformers","transformer","plugin")
@@ -44,7 +74,7 @@ allprojects {
         create("pluginAttr"){
             attributes {
                 attribute(attrGroup,Configuration.pluginGroup)
-                attribute(attrVersion,Configuration.pluginVersion)
+                attribute(attrVersion,getLatestGitTag())
             }
         }
     }
@@ -87,8 +117,8 @@ allprojects {
             val publication = this
             // 对应发布的包域
             group = Configuration.pluginGroup
-            // 对应发布版本
-            version = Configuration.pluginVersion
+            // 使用最近的 Git tag 作为版本号
+            version = project.getLatestGitTag()
             artifactId = project.name
             
             // 根据不同的 publication 类型选择合适的配置
