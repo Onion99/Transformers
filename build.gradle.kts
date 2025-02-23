@@ -30,7 +30,7 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.nova.sun.plugin:main:1.0.86")
+//        classpath("com.nova.sun.plugin:main:1.0.86")
     }
 }
 
@@ -53,9 +53,17 @@ allprojects {
         apply(plugin = "maven-publish")
         apply(plugin = "java")
         val project = this
+        
+        // 添加 sources jar
         val sourcesJar by tasks.registering(Jar::class) {
-            classifier = "sources"
+            archiveClassifier.set("sources")
             from(sourceSets.main.get().allSource)
+        }
+
+        // 添加 javadoc jar
+        val javadocJar by tasks.registering(Jar::class) {
+            archiveClassifier.set("javadoc")
+            from(tasks.named("javadoc"))
         }
 
         val configurePublication: Action<MavenPublication> = Action {
@@ -65,13 +73,45 @@ allprojects {
             // 对应发布版本
             version = Configuration.pluginVersion
             artifactId = project.name
-            artifact(sourcesJar.get())
-            if ("mavenJava" == publication.name) {
+            
+            // 根据不同的 publication 类型选择合适的配置
+            if (plugins.hasPlugin("java-gradle-plugin")) {
+                // 对于 gradle plugin，不需要手动添加 java component
+                artifact(sourcesJar.get())
+                artifact(javadocJar.get())
+            } else {
+                // 对于普通的 java 库
                 from(components.getByName("java"))
+                artifact(sourcesJar.get())
+                artifact(javadocJar.get())
             }
 
+            // 配置 POM
             pom {
-                uri("https://github.com/onion99/transformer")
+                name.set(project.name)
+                description.set("Transformer plugin for Android")
+                url.set("https://github.com/onion99/transformer")
+                
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id.set("onion99")
+                        name.set("onion99")
+                        email.set("891564341@qq.com")
+                    }
+                }
+                
+                scm {
+                    connection.set("scm:git:git://github.com/onion99/transformer.git")
+                    developerConnection.set("scm:git:ssh://github.com/onion99/transformer.git")
+                    url.set("https://github.com/onion99/transformer")
+                }
             }
         }
 
@@ -91,5 +131,4 @@ allprojects {
             }
         }
     }
-
 }
