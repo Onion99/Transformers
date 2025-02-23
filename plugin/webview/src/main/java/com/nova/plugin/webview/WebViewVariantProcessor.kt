@@ -16,7 +16,7 @@ class WebViewVariantProcessor : VariantProcessor {
             variant.project.configurations.getByName("pluginAttr").attributes {
                 val attrGroup = Attribute.of("pluginGroup", String::class.java)
                 val attrVersion = Attribute.of("pluginVersion", String::class.java)
-                variant.project.dependencies.add("implementation", "${it.getAttribute(attrGroup)}:webview-instrument:${it.getAttribute(attrVersion)}")
+                variant.project.dependencies.add("implementation", "com.github.Onion99.Transformers:webview-instrument:${it.getAttribute(attrVersion)}")
             }
         }
     }
