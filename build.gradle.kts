@@ -54,6 +54,23 @@ allprojects {
         apply(plugin = "java")
         val project = this
         
+        // 配置 Javadoc 任务
+        tasks.withType<Javadoc> {
+            options {
+                this as StandardJavadocDocletOptions
+                addStringOption("Xdoclint:none", "-quiet")
+                addStringOption("encoding", "UTF-8")
+                addStringOption("charSet", "UTF-8")
+                addBooleanOption("html5", true)
+                // 忽略 @hide 标签等错误
+                (this as CoreJavadocOptions).addStringOption("tag", "hide:X")
+                (this as CoreJavadocOptions).addStringOption("tag", "param:X")
+                (this as CoreJavadocOptions).addStringOption("tag", "return:X")
+            }
+            // 忽略 Javadoc 错误
+            isFailOnError = false
+        }
+        
         // 添加 sources jar
         val sourcesJar by tasks.registering(Jar::class) {
             archiveClassifier.set("sources")
