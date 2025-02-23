@@ -11,7 +11,7 @@ object Configuration {
   const val versionName = "$majorVersion.$minorVersion.$patchVersion"
   var versionCode = "$majorVersion$minorVersion$patchVersion".toInt()
   const val nameSpace= "com.nova.star"
-  const val pluginGroup   = "com.nova.sun.plugin"
+  const val pluginGroup   = "com.github.Onion99.Transformers"
   const val pluginVersion = "$majorVersion.$minorVersion.$patchVersion"
   const val debugApplicationId= "com.nova.beta"
   const val debugSignPassWord = "nova9999"

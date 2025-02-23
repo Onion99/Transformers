@@ -32,7 +32,7 @@ buildscript {
     dependencies {
         classpath(libs.agp)
         classpath(libs.kotlin.gradlePlugin)
-        classpath("com.github.Onion99:Transformers:1.2")
+//        classpath("com.github.Onion99:Transformers:1.2")
     }
 }
 
