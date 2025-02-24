@@ -5,7 +5,7 @@
 ## English
 
 ### Introduction
-Android Resource Review Plugin is a powerful Gradle plugin designed to help Android developers identify and manage duplicate resources during the build process. It effectively modifies asset files' SHA256 values to prevent duplicate resource conflicts, improving build efficiency and reducing APK size.
+Android Resource Review Plugin is a powerful Gradle plugin designed to help Android developers identify and manage duplicate resources during the build process. It effectively modifies asset files' SHA256 values to prevent duplicate resource
 
 ### Features
 - 🔍 Automatically detects duplicate resources in your Android project
@@ -17,14 +17,14 @@ Android Resource Review Plugin is a powerful Gradle plugin designed to help Andr
 
 ```groovy
 dependencies {
-    classpath 'com.nova.resource:resource-review:1.0.0'
+    classpath 'com.github.Onion99:Transformers:1.6'
 }
 ```
 
 2. Apply the plugin in your app-level build.gradle:
 
 ```groovy
-apply plugin: 'com.nova.resource.review'
+apply plugin: 'com.onion.plugin'
 ```
 
 3. The plugin will automatically run during the build process
@@ -36,10 +36,10 @@ The plugin works by:
 3. Maintaining original file functionality while preventing duplicate conflicts
 4. Automatically restoring files to their original state after processing
 
-### 注意事项
-- 插件仅在构建过程中修改文件，不会影响源文件
-- 建议在开发环境中充分测试后再在生产环境使用
-- 如遇到问题，可以通过 GitHub Issues 反馈
+### Things to note
+- The plugin only modifys the file during the build process and will not affect the source file.
+- It is recommended to fully test it in the development environment before using it in the production environment.
+- If you encounter any problems, you can provide feedback through GitHub Issues
 
 ## License
 
@@ -60,7 +60,7 @@ limitations under the License.
 ## Chinese
 
 ### 简介
-Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于帮助 Android 开发者在构建过程中识别和管理重复资源。它通过有效修改资源文件的 SHA256 值来防止重复资源冲突，提高构建效率并减少 APK 大小。
+Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于帮助 Android 开发者在构建过程中识别和管理重复资源。它通过有效修改资源文件的 SHA256 值来防止重复资源。
 
 ### 特性
 - 🔍 自动检测项目中的重复资源
@@ -71,13 +71,13 @@ Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于�
 1. 在项目级 build.gradle 中添加插件：
 ```groovy
 dependencies {
-    classpath 'com.nova.resource:resource-review:1.0.0'
+    classpath 'com.github.Onion99:Transformers:1.6'
 }
 ```
 
 2. 在应用级 build.gradle 中应用插件：
 ```groovy
-apply plugin: 'com.nova.resource.review'
+apply plugin: 'com.onion.plugin'
 ```
 
 3. 插件将在构建过程中自动运行
