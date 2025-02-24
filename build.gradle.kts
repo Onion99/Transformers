@@ -68,16 +68,6 @@ fun Project.getGitVersion(): String {
 
 allprojects {
     val noTransformerProject = arrayOf("app", "Transformers","transformer","plugin")
-    configurations{
-        val attrGroup = Attribute.of("pluginGroup", String::class.java)
-        val attrVersion = Attribute.of("pluginVersion", String::class.java)
-        create("pluginAttr"){
-            attributes {
-                attribute(attrGroup,Configuration.pluginGroup)
-                attribute(attrVersion,getLatestGitTag())
-            }
-        }
-    }
     if (!noTransformerProject.contains(name)) {
         println("current project = ${name}")
         apply(plugin = "maven-publish")
