@@ -51,8 +51,12 @@ class ConfuseClassVisitor(private val classVisitor:ClassVisitor) : ClassVisitor(
 
     override fun visitEnd() {
         super.visitEnd()
-        // 添加垃圾实例字段 private String garbageInstance = "Hello";
-        // 使用 ProGuard 或 R8 时，垃圾字段可能被优化掉，可以在混淆规则中添加保护
+        
+        // 首先添加 @Keep 注解
+        val annotationVisitor = cv.visitAnnotation("Landroidx/annotation/Keep;", true)
+        annotationVisitor?.visitEnd()
+        
+        // 添加垃圾实例字段，并标记为 @Keep
         val instanceField: FieldVisitor = cv.visitField(
             Opcodes.ACC_PRIVATE,  // 修饰符：private
             "garbageInstance",  // 字段名
@@ -60,6 +64,11 @@ class ConfuseClassVisitor(private val classVisitor:ClassVisitor) : ClassVisitor(
             null,  // 泛型签名
             "Hello" // 初始值
         )
+        
+        // 为字段添加 @Keep 注解
+        val fieldAnnotation = instanceField.visitAnnotation("Landroidx/annotation/Keep;", true)
+        fieldAnnotation?.visitEnd()
+        
         instanceField.visitEnd()
     }
 }

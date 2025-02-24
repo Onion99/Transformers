@@ -45,9 +45,9 @@ class CorePlugin :Plugin<Project> {
             }
         }
         // ---- transform plugin list ------
-        project.getAndroid<BaseExtension>().registerTransform(CoreTransform(
-            project.newTransformParameter("Nova transformer", lookupTransformers(project.buildscript.classLoader))
-        ))
+//        project.getAndroid<BaseExtension>().registerTransform(CoreTransform(
+//            project.newTransformParameter("Nova transformer", lookupTransformers(project.buildscript.classLoader))
+//        ))
         // resource plugin
         project.tasks.whenTaskAdded(AppCommonResourceDTask())
         // assets plugin
