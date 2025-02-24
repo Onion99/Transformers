@@ -22,7 +22,7 @@ Android Resource Review Plugin is a powerful Gradle plugin designed to help Andr
 
 ```groovy
 dependencies {
-    classpath 'com.github.Onion99:Transformers:1.6'
+    classpath 'com.github.Onion99:Transformers:1.7'
 }
 ```
 
@@ -78,7 +78,7 @@ Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于�
 1. 在项目级 build.gradle 中添加插件：
 ```groovy
 dependencies {
-    classpath 'com.github.Onion99:Transformers:1.6'
+    classpath 'com.github.Onion99:Transformers:1.7'
 }
 ```
 
