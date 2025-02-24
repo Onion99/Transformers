@@ -46,6 +46,10 @@ The plugin works by:
 - It is recommended to fully test it in the development environment before using it in the production environment.
 - If you encounter any problems, you can provide feedback through GitHub Issues
 
+### More spam content generation
+
+https://github.com/Onion99/AndroidJunkCode
+
 ## License
 
 Copyright (c) 2024 Nova
@@ -100,6 +104,11 @@ apply plugin: 'com.onion.plugin'
 - 插件仅在构建过程中修改文件，不会影响源文件
 - 建议在开发环境中充分测试后再在生产环境使用
 - 如遇到问题，可以通过 GitHub Issues 反馈
+
+
+### 更多垃圾内容生成
+
+https://github.com/Onion99/AndroidJunkCode
 
 ## License
 
