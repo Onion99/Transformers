@@ -1,4 +1,4 @@
-# Android Resource Review Plugin | Android 资源去重插件
+# Essential Plugin for Google App Clones Upload - Android Resource Review Plugin | 谷歌马甲包上架必备插件 - Android 资源去重插件
 
 [English](#english) | [中文](#chinese)
 
