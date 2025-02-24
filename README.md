@@ -10,6 +10,8 @@ Android Resource Review Plugin is a powerful Gradle plugin designed to help Andr
 ### Features
 - 🔍 Automatically detects duplicate resources in your Android project
 - 🛠 Modifies asset files' SHA256 values without affecting functionality
+- 🛠 Modifies resources files' SHA256 values without affecting functionality
+- 🛠 Modifies java/kotlin files' SHA256 values without affecting functionality
 
 ### Usage
 
@@ -64,7 +66,9 @@ Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于�
 
 ### 特性
 - 🔍 自动检测项目中的重复资源
+- 🛠 修改Assets文件的 SHA256 值，同时保持功能完整性
 - 🛠 修改资源文件的 SHA256 值，同时保持功能完整性
+- 🛠 修改代码文件的 SHA256 值，同时保持功能完整性
 
 ### 使用方法
 
