@@ -69,7 +69,7 @@ limitations under the License.
 ## Chinese
 
 ### 简介
-Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于帮助 Android 开发者在构建过程中识别和修改资源。它通过有效修改资源文件的 SHA256 值来防止重复资源。
+Android Resource Review Plugin 是一个强大的 Gradle 插件，专门用于帮助 Android 开发者在构建过程中识别和修改资源。它通过有效修改资源文件的 SHA256 值来防止重复 apk/aab 包。
 
 ### 特性
 - 🔍 自动检测项目中的资源
